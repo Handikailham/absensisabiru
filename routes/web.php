@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 Route::get('/', function () {
     return view('welcome');
@@ -22,8 +23,9 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
     
 });
 
-Route::middleware(['auth', CheckRole::class . ':karyawan'])->group(function () {
-    Route::get('/karyawan/dashboard', function () {
-        return 'Halaman Karyawan';
-    });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/absen', [AbsenController::class, 'index'])->name('absen.index');
+    Route::post('/absen', [AbsenController::class, 'store'])->name('absen.store');
+    Route::post('/absen/pulang', [AbsenController::class, 'pulang'])->name('absen.pulang');
+    Route::post('/absen/izin', [AbsenController::class, 'izin'])->name('absen.izin');
 });

@@ -25,7 +25,7 @@ class LoginController extends Controller
             if ($user->role === 'admin') {
                 return redirect('/admin/dashboard');
             } else {
-                return redirect('/karyawan/dashboard');
+                return redirect('absen');
             }
         }
 
