@@ -6,7 +6,6 @@
     <title>Halaman Absen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
-        // Script untuk menampilkan jam real-time
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -14,24 +13,11 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
             document.getElementById('current-time').innerText = `${hours}:${minutes}:${seconds}`;
         }
-
-        // Update jam setiap detik
         setInterval(updateClock, 1000);
         window.onload = updateClock;
     </script>
 </head>
 <body>
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">Absensi Karyawan</a>
@@ -54,9 +40,14 @@
     <div class="container mt-4">
         <h1>Halaman Absen</h1>
 
-        <!-- Tampilkan waktu saat ini -->
-        <p><strong>Waktu Sekarang:</strong> <span id="current-time"></span></p>
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
+        <p><strong>Waktu Sekarang:</strong> <span id="current-time"></span></p>
         <p>Halo, {{ $karyawan->nama }}</p>
         <p>Tanggal: {{ now()->toDateString() }}</p>
 
@@ -72,7 +63,7 @@
                 </form>
             @endif
         @else
-            <form method="POST" action="{{ route('absen.store') }}">
+            <form method="POST" action="{{ route('absen.masuk') }}">
                 @csrf
                 <button class="btn btn-success">Absen Masuk</button>
             </form>
