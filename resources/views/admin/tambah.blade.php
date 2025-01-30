@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-100 py-12 px-6">
 
-    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Form Input Data Proyek</h2>
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Form Input Data Karyawan</h2>
 
     <div  class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg space-y-8">
 
@@ -54,7 +54,7 @@
                     Kembali
                 </a>
                 <button type="submit" class="w-1/2 bg-blue-500 text-white py-2 px-6 rounded-lg text-center hover:bg-blue-600">
-                    Kirim
+                    Tambah
                 </button>
             </div>
         </form>
