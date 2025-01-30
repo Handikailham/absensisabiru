@@ -72,7 +72,7 @@
                                 <td class="px-6 py-4 text-blue-600 font-semibold">{{ ucfirst($data->role) }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('admin.edit', $data->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">
+                                        <a href="{{ route('admin.edit', $data->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 shadow-md">
                                             Edit
                                         </a>
                                         <form action="{{ route('admin.delete', $data->id) }}" method="POST" class="inline-block">

@@ -40,28 +40,29 @@
             <div class="p-6">
                 <h1 class="text-3xl font-semibold text-center text-blue-600 mb-6">Daftar Absensi</h1>
 
-                <!-- Form Filter Berdasarkan Tanggal -->
-                <div class="mb-4 flex justify-between items-center">
-                    <form action="{{ route('absen.admin.filterByDate') }}" method="GET" class="flex items-center space-x-4">
-                        @csrf
-                        <div>
-                            <label for="start_date" class="block text-sm text-gray-600 mb-1">Tanggal Mulai</label>
-                            <input type="date" name="start_date" id="start_date" class="px-3 py-2 border rounded-lg" value="{{ $startDate ?? '' }}" required>
-                        </div>
-                        <div>
-                            <label for="end_date" class="block text-sm text-gray-600 mb-1">Tanggal Selesai</label>
-                            <input type="date" name="end_date" id="end_date" class="px-3 py-2 border rounded-lg" value="{{ $endDate ?? '' }}" required>
-                        </div>
-                        <div class="flex space-x-2">
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
-                                Filter
-                            </button>
-                            <a href="{{ route('absen.admin.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-300">
-                                Reset
-                            </a>
-                        </div>
-                    </form>
-                </div>
+    <!-- Form Filter Berdasarkan Tanggal -->
+    <div class="mb-4 flex justify-between items-center">
+        <form action="{{ route('absen.admin.filterByDate') }}" method="GET" class="flex items-end space-x-4">
+        @csrf
+            <div>
+                <label for="start_date" class="block text-sm text-gray-600 mb-1">Tanggal Mulai</label>
+                <input type="date" name="start_date" id="start_date" class="px-3 py-2 border rounded-lg w-40" value="{{ $startDate ?? '' }}" required>
+            </div>
+            <div>
+                <label for="end_date" class="block text-sm text-gray-600 mb-1">Tanggal Selesai</label>
+                <input type="date" name="end_date" id="end_date" class="px-3 py-2 border rounded-lg w-40" value="{{ $endDate ?? '' }}" required>
+            </div>
+            <div class="flex space-x-2">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                    Filter
+                </button>
+                <a href="{{ route('absen.admin.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-300">
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
 
                 <div class="flex justify-between items-center mb-4">
                     <a href="{{ route('absen.admin.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 shadow-md">
@@ -105,21 +106,21 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('absen.admin.show', $absen->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 text-xs">
+                                        <a href="{{ route('absen.admin.show', $absen->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">
                                             Detail
                                         </a>
-                                        <a href="{{ route('absen.admin.edit', $absen->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 text-xs">
+                                        <a href="{{ route('absen.admin.edit', $absen->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 shadow-md">
                                             Edit
                                         </a>
                                         <form action="{{ route('absen.admin.destroy', $absen->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-xs" onclick="return confirm('Apakah Anda yakin?')">
+                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 shadow-md" onclick="return confirm('Apakah Anda yakin?')">
                                                 Hapus
                                             </button>
                                         </form>
                                     </div>
-                                </td>
+                                </td> 
                             </tr>
                             @endforeach
                         </tbody>
@@ -130,3 +131,7 @@
     </div>
 </body>
 </html>
+
+
+
+{{----}}
