@@ -9,7 +9,7 @@ use App\Http\Controllers\DataAbsenController;
 
 // Route untuk halaman welcome
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Route untuk login dan logout

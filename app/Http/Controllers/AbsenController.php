@@ -55,7 +55,7 @@ class AbsenController extends Controller
     {
         $karyawan = Auth::user();
         $jamPulang = now()->toTimeString();
-        $jamMulaiPulang = '13:30:00';
+        $jamMulaiPulang = '16:30:00';
 
         if (strtotime($jamPulang) < strtotime($jamMulaiPulang)) {
             return redirect()->route('absen.index')->with('error', 'Anda belum bisa melakukan absen pulang sebelum pukul ' . $jamMulaiPulang);
