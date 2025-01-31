@@ -38,7 +38,7 @@ class AbsenController extends Controller
             return redirect()->route('absen.index')->with('error', 'Anda belum bisa melakukan absen sebelum pukul ' . $jamMulaiAbsen);
         }
 
-        $status = strtotime($jamMasuk) > strtotime('12:00:00') ? 'terlambat' : 'hadir';
+        $status = strtotime($jamMasuk) > strtotime('10:10:00') ? 'terlambat' : 'hadir';
 
         Absen::create([
             'karyawan_id' => $karyawan->id,

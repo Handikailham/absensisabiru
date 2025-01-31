@@ -75,44 +75,45 @@
                     </div>
 
                     @if ($absenHariIni)
-                        <div class="bg-gray-100 p-4 rounded-2xl shadow-md">
-                            <h3 class="text-lg font-semibold mb-2">Status Absensi Hari Ini</h3>
-                            <div class="space-y-2">
-                                <p class="flex items-center">
-                                    <span class="mr-2">Status:</span>
-                                    <span class="px-2 py-1 bg-blue-500 text-white rounded-full text-sm">
-                                        {{ ucfirst($absenHariIni->status) }}
-                                    </span>
-                                </p>
-                                <p>Jam Masuk: {{ $absenHariIni->jam_masuk ?? '-' }}</p>
-                                <p>Jam Pulang: {{ $absenHariIni-> jam_pulang ?? '-' }}</p>
-                            </div>
-                        </div>
+    <div class="bg-gray-100 p-4 rounded-2xl shadow-md">
+        <h3 class="text-lg font-semibold mb-2">Status Absensi Hari Ini</h3>
+        <div class="space-y-2">
+            <p class="flex items-center">
+                <span class="mr-2">Status:</span>
+                <span class="px-2 py-1 bg-blue-500 text-white rounded-full text-sm">
+                    {{ ucfirst($absenHariIni->status) }}
+                </span>
+            </p>
+            <p>Jam Masuk: {{ $absenHariIni->jam_masuk ?? '-' }}</p>
+            <p>Jam Pulang: {{ $absenHariIni->jam_pulang ?? '-' }}</p>
+        </div>
+    </div>
 
-                        @if (!$absenHariIni->jam_pulang)
-                            <form method="POST" action="{{ route('absen.pulang') }}">
-                                @csrf
-                                <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-                                    Absen Pulang
-                                </button>
-                            </form>
-                        @endif
-                    @else
-                        <div class="flex flex-col space-y-2">
-                            <form method="POST" action="{{ route('absen.masuk') }}">
-                                @csrf
-                                <button class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300">
-                                    Absen Masuk
-                                </button>
-                            </form>
-                            <form method="POST" action="{{ route('absen.izin') }}">
-                                @csrf
-                                <button class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300">
-                                    Ajukan Izin
-                                </button>
-                            </form>
-                        </div>
-                    @endif
+    @if (!$absenHariIni->jam_pulang && $absenHariIni->status !== 'izin')
+        <form method="POST" action="{{ route('absen.pulang') }}">
+            @csrf
+            <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                Absen Pulang
+            </button>
+        </form>
+    @endif
+@else
+    <div class="flex flex-col space-y-2">
+        <form method="POST" action="{{ route('absen.masuk') }}">
+            @csrf
+            <button class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300">
+                Absen Masuk
+            </button>
+        </form>
+        <form method="POST" action="{{ route('absen.izin') }}">
+            @csrf
+            <button class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300">
+                Ajukan Izin
+            </button>
+        </form>
+    </div>
+@endif
+
                 </div>
             </div>
         </div>
