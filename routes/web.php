@@ -48,5 +48,9 @@ Route::middleware(['auth', CheckRole::class . ':karyawan'])->group(function () {
     Route::get('/absen', [AbsenController::class, 'index'])->name('absen.index');
     Route::post('/absen/masuk', [AbsenController::class, 'absenMasuk'])->name('absen.masuk');
     Route::post('/absen/pulang', [AbsenController::class, 'absenPulang'])->name('absen.pulang');
+    Route::get('/absen/izin', [AbsenController::class, 'formIzin'])->name('absen.form');
     Route::post('/absen/izin', [AbsenController::class, 'izin'])->name('absen.izin');
+    Route::get('/absen/izin/keterangan/{id}', [AbsenController::class, 'keteranganIzin'])->name('absen.keterangan');
+    Route::get('/absen/izin/download/{id}', [AbsenController::class, 'downloadIzinPDF'])->name('absen.generatePDF');
+
 });

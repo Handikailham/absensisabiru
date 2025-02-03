@@ -105,12 +105,9 @@
                 Absen Masuk
             </button>
         </form>
-        <form method="POST" action="{{ route('absen.izin') }}">
-            @csrf
-            <button class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300">
-                Ajukan Izin
-            </button>
-        </form>
+        <a href="{{ route('absen.izin') }}" class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300 text-center block">
+            Ajukan Izin
+        </a>           
     </div>
 @endif
 

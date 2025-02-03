@@ -15,6 +15,9 @@ class Absen extends Model
         'jam_masuk',
         'jam_pulang',
         'status',
+        'izin_mulai',
+        'izin_selesai',
+        'alasan',
     ];
 
     public function karyawan()
