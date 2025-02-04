@@ -6,6 +6,8 @@ use App\Models\Absen;
 use App\Models\Karyawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RecapAbsen;
 
 class DataAbsenController extends Controller
 {
@@ -160,6 +162,35 @@ class DataAbsenController extends Controller
     // Kirim data ke view
     return view('absen.admin.index', compact('absens', 'startDate', 'endDate'));
 }
+
+
+
+public function export(Request $request)
+{
+    if (Auth::user()->role !== 'admin') {
+        return redirect()->route('absen.index')->with('error', 'Anda tidak memiliki akses!');
+    }
+
+    // Validasi input tanggal
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date'   => 'required|date|after_or_equal:start_date',
+    ]);
+
+    $startDate = $request->input('start_date');
+    $endDate   = $request->input('end_date');
+
+    
+    $tanggal_awal = date('d F Y', strtotime($startDate));
+    $tanggal_akhir = date('d F Y', strtotime($endDate));
+
+    
+    $fileName = 'rekap-absensi-' . str_replace(' ', '-', $tanggal_awal) . ' Sd ' . str_replace(' ', '-', $tanggal_akhir) . '.xlsx';
+
+    return Excel::download(new RecapAbsen($startDate, $endDate), $fileName);
+}
+
+
 
    
 }

@@ -43,7 +43,7 @@
     <!-- Form Filter Berdasarkan Tanggal -->
     <div class="mb-4 flex justify-between items-center">
         <form action="{{ route('absen.admin.filterByDate') }}" method="GET" class="flex items-end space-x-4">
-        @csrf
+            @csrf
             <div>
                 <label for="start_date" class="block text-sm text-gray-600 mb-1">Tanggal Mulai</label>
                 <input type="date" name="start_date" id="start_date" class="px-3 py-2 border rounded-lg w-40" value="{{ $startDate ?? '' }}" required>
@@ -61,7 +61,18 @@
                 </a>
             </div>
         </form>
+    
+        <!-- Tombol Export ke Excel -->
+        @if(isset($startDate) && isset($endDate))
+        <div>
+            <a href="{{ route('absen.admin.export', ['start_date' => $startDate, 'end_date' => $endDate]) }}"
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300">
+                Export ke Excel
+            </a>
+        </div>
+        @endif
     </div>
+    
 
 
                 <div class="flex justify-between items-center mb-4">
@@ -81,6 +92,7 @@
                                 <th class="border border-gray-300 px-6 py-3">Jam Masuk</th>
                                 <th class="border border-gray-300 px-6 py-3">Jam Pulang</th>
                                 <th class="border border-gray-300 px-6 py-3">Status</th>
+                                <th class="border border-gray-300 px-6 py-3">Alasan</th>
                                 <th class="border border-gray-300 px-6 py-3">Aksi</th>
                             </tr>
                         </thead>
@@ -104,6 +116,7 @@
                                         {{ ucfirst($absen->status) }}
                                     </span>
                                 </td>
+                                <td class="px-6 py-4">{{ $absen->alasan ?? '-' }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-center space-x-2">
                                         <a href="{{ route('absen.admin.show', $absen->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">

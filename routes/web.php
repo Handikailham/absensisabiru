@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsenController;
 
+
 // Route untuk halaman welcome
 Route::get('/', function () {
     return view('auth.login');
@@ -36,11 +37,16 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::get('/create', [DataAbsenController::class, 'create'])->name('absen.admin.create');
         Route::get('/filter', [DataAbsenController::class, 'filterByDate'])->name('absen.admin.filterByDate');
         Route::post('/store', [DataAbsenController::class, 'store'])->name('absen.admin.store');
+        Route::get('/export', [DataAbsenController::class, 'export'])->name('absen.admin.export');
         Route::get('/{id}', [DataAbsenController::class, 'show'])->name('absen.admin.show');
         Route::get('/edit/{id}', [DataAbsenController::class, 'edit'])->name('absen.admin.edit');
         Route::put('/update/{id}', [DataAbsenController::class, 'update'])->name('absen.admin.update');
         Route::delete('/delete/{id}', [DataAbsenController::class, 'destroy'])->name('absen.admin.destroy');
+        
+       
     });
+
+    
 });
 
 // Route untuk karyawan (hanya perlu autentikasi)

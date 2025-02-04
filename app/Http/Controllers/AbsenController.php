@@ -131,7 +131,7 @@ class AbsenController extends Controller
 
     // Load tampilan PDF dengan data izins
     $pdf = PDF::loadView('absen.izin_pdf', compact('izins'));
-    return $pdf->download('keterangan_izin.pdf');
+    return $pdf->download('Surat Permohonan Izin.pdf');
 }
 
     
