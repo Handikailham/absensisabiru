@@ -11,4 +11,8 @@ class Karyawan extends Authenticatable
     protected $table = 'karyawan';
     protected $fillable = ['nama', 'email', 'password', 'role'];
     protected $hidden = ['password', 'remember_token'];
+
+    public function posisi() {
+        return $this->belongsTo(Posisi::class, 'id_posisi');
+    }
 }

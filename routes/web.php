@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GajiController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\KaryawanController;
@@ -43,6 +44,14 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::put('/update/{id}', [DataAbsenController::class, 'update'])->name('absen.admin.update');
         Route::delete('/delete/{id}', [DataAbsenController::class, 'destroy'])->name('absen.admin.destroy');
         
+       
+    });
+
+    Route::prefix('/admin/gaji')->group(function () {
+        Route::get('/', [GajiController::class, 'index'])->name('gaji.index');
+        Route::get('/tambah', [GajiController::class, 'create'])->name('gaji.create');
+        Route::post('/store', [GajiController::class, 'store'])->name('gaji.store');
+        Route::get('/gaji/export/{id}', [GajiController::class, 'exportPdfOne'])->name('gaji.export.one');
        
     });
 

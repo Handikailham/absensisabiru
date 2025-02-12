@@ -65,6 +65,10 @@
                     <option value="izin" {{ $absen->status == 'izin' ? 'selected' : '' }}>Izin</option>
                 </select>
             </div>
+            <div class="mb-4">
+                <label for="alasan" class="block text-gray-700">Alasan</label>
+                <input type="text" name="alasan" id="alasan" class="w-full px-4 py-2 border rounded-lg" value="{{ $absen->alasan }}">
+            </div>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Update</button>
         </form>
     </div>

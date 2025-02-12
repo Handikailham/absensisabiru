@@ -62,6 +62,7 @@ class DataAbsenController extends Controller
             'jam_masuk' => 'nullable|date_format:H:i',
             'jam_pulang' => 'nullable|date_format:H:i',
             'status' => 'required|in:hadir,terlambat,izin',
+            'alasan' => 'required|',
         ]);
 
         // Simpan data absensi
