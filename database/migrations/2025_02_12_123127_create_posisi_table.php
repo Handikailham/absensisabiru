@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('posisi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_divisi')->constrained('divisi')->onDelete('cascade');
             $table->string('nama_posisi')->unique();
             $table->decimal('gaji_pokok', 12, 2);
             $table->decimal('tunjangan', 12, 2);

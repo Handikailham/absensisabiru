@@ -22,6 +22,12 @@
                 <a href="{{ route('absen.admin.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.admin.index') ? 'font-bold text-blue-600' : '' }}">
                     Data Absensi
                 </a>
+                <a href="{{ route('posisi.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.admin.index') ? 'font-bold text-blue-600' : '' }}">
+                    Data Posisi
+                </a>
+                <a href="{{ route('gaji.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.admin.index') ? 'font-bold text-blue-600' : '' }}">
+                    Data Gaji
+                </a>
             </div>
             <div class="flex items-center space-x-4">
                 <span class="text-gray-700">{{ Auth::user()->name }}</span>

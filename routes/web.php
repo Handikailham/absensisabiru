@@ -7,7 +7,7 @@ use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsenController;
-
+use App\Http\Controllers\PosisiController;
 
 // Route untuk halaman welcome
 Route::get('/', function () {
@@ -23,6 +23,16 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 // Route untuk admin (dengan middleware CheckRole)
 Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
     // Route untuk dashboard admin
+
+    // Route::prefix('/admin/dashboard')->group(function () {
+    //     Route::get('/', [KaryawanController::class, 'tampil'])->name('admin.index');
+    //     Route::get('/tambah', [KaryawanController::class, 'tambah'])->name('admin.tambah');
+    //     Route::post('/submit', [KaryawanController::class, 'submit'])->name('admin.submit');
+    //     Route::get('/edit/{id}', [KaryawanController::class, 'edit'])->name('admin.edit');
+    //     Route::put('/update/{id}', [KaryawanController::class, 'update'])->name('admin.update');
+    //     Route::post('/delete/{id}', [KaryawanController::class, 'delete'])->name('admin.delete');
+    // });
+
     Route::get('/admin/dashboard', [KaryawanController::class, 'tampil'])->name('admin.tampil');
 
     // Route untuk manajemen karyawan
@@ -52,6 +62,16 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::get('/tambah', [GajiController::class, 'create'])->name('gaji.create');
         Route::post('/store', [GajiController::class, 'store'])->name('gaji.store');
         Route::get('/gaji/export/{id}', [GajiController::class, 'exportPdfOne'])->name('gaji.export.one');
+       
+    });
+
+    Route::prefix('/admin/posisi')->group(function () {
+        Route::get('/', [PosisiController::class, 'index'])->name('posisi.index');
+        Route::get('/tambah', [PosisiController::class, 'tambah'])->name('posisi.tambah');
+        Route::get('/edit/{id}', [PosisiController::class, 'edit'])->name('posisi.edit');
+        Route::put('/update/{id}', [PosisiController::class, 'update'])->name('posisi.update');
+        Route::post('/store', [PosisiController::class, 'store'])->name('posisi.store');
+        Route::delete('/delete/{id}', [PosisiController::class, 'destroy'])->name('posisi.destroy');
        
     });
 

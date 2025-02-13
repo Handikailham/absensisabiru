@@ -24,6 +24,19 @@
                        class="w-full py-2 px-4 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
             </div>
 
+            <!--Input Posisi-->
+            <div class="space-y-2">
+                <label for="id_posisi" class="block text-sm font-medium text-gray-700">Posisi</label>
+                <select id="id_posisi" name="id_posisi"
+                        class="w-full py-2 px-4 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="">Pilih Posisi</option>
+                    @foreach ($posisi as $p)
+                        <option value="{{ $p->id }}">{{ $p->nama_posisi }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+
             <!-- Input Harga -->
             <div class="space-y-2">
                 <label for="harga" class="block text-sm font-medium text-gray-700">Email</label>
