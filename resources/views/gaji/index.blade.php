@@ -66,6 +66,7 @@
                                 <th class="border border-gray-300 px-6 py-3">Nama Karyawan</th>
                                 <th class="border border-gray-300 px-6 py-3">Posisi</th>
                                 <th class="border border-gray-300 px-6 py-3">Gaji Pokok</th>
+                                <th class="border border-gray-300 px-6 py-3">Tunjangan</th>
                                 <th class="border border-gray-300 px-6 py-3">Lembur</th>
                                 <th class="border border-gray-300 px-6 py-3">Bonus</th>
                                 <th class="border border-gray-300 px-6 py-3">Total Gaji</th>
@@ -79,7 +80,10 @@
                                 <td class="px-6 py-4">{{ $no + 1 }}</td>
                                 <td class="px-6 py-4">{{ optional($item->karyawan)->nama ?? 'N/A' }}</td>
                                 <td class="px-6 py-4">{{ optional($item->posisi)->nama_posisi ?? 'N/A' }}</td>
-                                <td class="px-6 py-4">{{ number_format($item->posisi->gaji_pokok, 0, ',', '.') }}</td>
+                                <td class="px-6 py-4">
+                                    {{ number_format(optional($item->karyawan)->tipe_karyawan == 'magang' ? 0 : optional($item->posisi)->gaji_pokok, 0, ',', '.') }}
+                                </td>                                
+                                <td class="px-6 py-4">{{ number_format($item->posisi->tunjangan, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">{{ number_format($item->lembur, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">{{ number_format($item->bonus, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4 font-semibold text-green-600">{{ number_format($item->total_gaji, 0, ',', '.') }}</td>

@@ -20,6 +20,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+
 // Route untuk admin (dengan middleware CheckRole)
 Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
     // Route untuk dashboard admin
@@ -85,6 +86,7 @@ Route::middleware(['auth', CheckRole::class . ':karyawan'])->group(function () {
     Route::post('/absen/pulang', [AbsenController::class, 'absenPulang'])->name('absen.pulang');
     Route::get('/absen/izin', [AbsenController::class, 'formIzin'])->name('absen.form');
     Route::post('/absen/izin', [AbsenController::class, 'izin'])->name('absen.izin');
+    Route::get('/riwayat-gaji', [GajiController::class, 'riwayatForKaryawan'])->name('absen.riwayatgaji');
     Route::get('/absen/izin/keterangan/{id}', [AbsenController::class, 'keteranganIzin'])->name('absen.keterangan');
     Route::get('/absen/izin/download/{id}', [AbsenController::class, 'downloadIzinPDF'])->name('absen.generatePDF');
 

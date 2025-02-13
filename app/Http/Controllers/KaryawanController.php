@@ -20,14 +20,15 @@ class KaryawanController extends Controller
         return view('admin.tambah', compact('posisi'));
     }
 
-    public function submit(Request $request) // Ubah dari store() ke submit()
+    public function submit(Request $request) // sebelumnya submit() sebagai store()
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:karyawan,email',
             'password' => 'required|min:6',
             'role' => 'required|in:admin,karyawan',
-            'id_posisi' => 'nullable|exists:posisi,id'
+            'id_posisi' => 'nullable|exists:posisi,id',
+            'tipe_karyawan' => 'required|in:tetap,kontrak,magang'
         ]);
 
         $validated['password'] = Hash::make($request->password);
@@ -53,7 +54,8 @@ class KaryawanController extends Controller
             'email' => 'required|email|unique:karyawan,email,' . $id,
             'password' => 'nullable|min:6',
             'role' => 'required|in:admin,karyawan',
-            'id_posisi' => 'nullable|exists:posisi,id'
+            'id_posisi' => 'nullable|exists:posisi,id',
+            'tipe_karyawan' => 'required|in:tetap,kontrak,magang'
         ]);
 
         if ($request->filled('password')) {
@@ -67,7 +69,7 @@ class KaryawanController extends Controller
         return redirect()->route('admin.tampil')->with('success', 'Data karyawan berhasil diperbarui');
     }
 
-    public function delete($id) // Ubah dari destroy() ke delete()
+    public function delete($id) // sebelumnya delete() sebagai destroy()
     {
         Karyawan::destroy($id);
         return redirect()->route('admin.tampil')->with('success', 'Data karyawan berhasil dihapus');

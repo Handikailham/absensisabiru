@@ -66,6 +66,7 @@
                                 <th class="border border-gray-300 px-6 py-3">Nama Karyawan</th>
                                 <th class="border border-gray-300 px-6 py-3">Email</th>
                                 <th class="border border-gray-300 px-6 py-3">Posisi</th>
+                                <th class="border border-gray-300 px-6 py-3">Tipe Karyawan</th>
                                 <th class="border border-gray-300 px-6 py-3">Role</th>
                                 <th class="border border-gray-300 px-6 py-3">Aksi</th>
                             </tr>
@@ -77,6 +78,7 @@
                                 <td class="px-6 py-4">{{ $data->nama }}</td>
                                 <td class="px-6 py-4">{{ $data->email }}</td>
                                 <td class="px-6 py-4">{{ optional($data->posisi)->nama_posisi ?? 'Admin' }}</td>
+                                <td class="px-6 py-4">{{ $data->tipe_karyawan }}</td>
                                 <td class="px-6 py-4 text-blue-600 font-semibold">{{ ucfirst($data->role) }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-center space-x-2">

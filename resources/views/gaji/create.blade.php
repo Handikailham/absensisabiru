@@ -40,11 +40,13 @@
               <option value="{{ $data->id }}" 
                       data-posisi="{{ $data->posisi->id ?? '' }}"
                       data-gaji="{{ $data->posisi->gaji_pokok ?? 0 }}"
-                      data-tunjangan="{{ $data->posisi->tunjangan ?? 0 }}">
+                      data-tunjangan="{{ $data->posisi->tunjangan ?? 0 }}"
+                      data-tipe="{{ $data->tipe_karyawan }}">
                 {{ $data->nama }}
               </option>
             @endforeach
           </select>
+          
         </div>
 
         <!-- Gaji Pokok -->
@@ -120,37 +122,41 @@
       $('#total_gaji_display').val(formatNominal(total));
     }
   
-    $(document).ready(function () {
-      // Saat karyawan dipilih, perbarui gaji pokok & tunjangan
-      $('#karyawan').change(function () {
-        var selected = $(this).find(':selected');
-        var gaji = parseFloat(selected.data('gaji')) || 0;
-        var tunjangan = parseFloat(selected.data('tunjangan')) || 0;
-        
-        $('#gaji_pokok').val(gaji);
-        $('#gaji_pokok_display').val(formatNominal(gaji));
-        $('#tunjangan').val(tunjangan);
-        $('#tunjangan_display').val(formatNominal(tunjangan));
-        
-        hitungTotalGaji();
-      });
+    $(document).ready(function(){
+  // Saat karyawan dipilih, perbarui gaji pokok & tunjangan
+  $('#karyawan').change(function(){
+    var selected = $(this).find(':selected');
+    var tipe = selected.data('tipe'); // ambil tipe karyawan
+    var gaji = parseFloat(selected.data('gaji')) || 0;
+    // Jika tipe magang, gaji pokok diset ke 0
+    if(tipe === 'magang'){
+      gaji = 0;
+    }
+    var tunjangan = parseFloat(selected.data('tunjangan')) || 0;
+    
+    $('#gaji_pokok').val(gaji);
+    $('#gaji_pokok_display').val(formatNominal(gaji));
+    $('#tunjangan').val(tunjangan);
+    $('#tunjangan_display').val(formatNominal(tunjangan));
+    
+    hitungTotalGaji();
+  });
   
-      // Fungsi umum untuk format input angka secara otomatis
-      function handleInputFormat(selector, hiddenSelector) {
-        $(selector).on('input', function () {
-          var rawValue = $(this).val();
-          var unformatted = unformatNominal(rawValue);
-          
-          $(hiddenSelector).val(unformatted); // Simpan angka mentah
-          $(this).val(formatNominal(unformatted)); // Tampilkan dengan format ribuan
-          hitungTotalGaji();
-        });
-      }
-  
-      // Terapkan fungsi ke lembur dan bonus
-      handleInputFormat('#lembur_display', '#lembur');
-      handleInputFormat('#bonus_display', '#bonus');
+  // Fungsi umum untuk format input angka secara otomatis
+  function handleInputFormat(selector, hiddenSelector) {
+    $(selector).on('input', function () {
+      var rawValue = $(this).val();
+      var unformatted = unformatNominal(rawValue);
+      $(hiddenSelector).val(unformatted); // simpan angka mentah
+      $(this).val(formatNominal(unformatted)); // tampilkan dengan format ribuan
+      hitungTotalGaji();
     });
+  }
+  
+  handleInputFormat('#lembur_display', '#lembur');
+  handleInputFormat('#bonus_display', '#bonus');
+});
+
   </script>
   
 </body>
