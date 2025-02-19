@@ -12,7 +12,14 @@
         }
     </style>
 </head>
+
+
+
 <body class="bg-gradient-to-br from-blue-100 via-white to-blue-100 min-h-screen flex items-center justify-center p-4">
+
+
+
+    
     <div class="w-full max-w-4xl bg-white shadow-2xl rounded-3xl overflow-hidden border border-blue-100">
         <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6">
             <div class="flex justify-between items-center">
@@ -23,6 +30,16 @@
                     <h1 class="text-3xl font-bold text-white">Absensi Karyawan</h1>
                 </div>
                 <div class="flex items-center space-x-4">
+                    <!-- Tombol Riwayat Gaji -->
+                    <a href="{{route('absen.riwayatgaji')}}" 
+                       class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <!-- Contoh ikon: gunakan ikon history atau document -->
+                            <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.707 8.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 12.586V7a1 1 0 112 0v5.586l2.293-2.293a1 1 0 111.414 1.414z"/>
+                        </svg>
+                        Riwayat Gaji
+                    </a>
+                    <!-- Tombol Logout -->
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center">
@@ -33,6 +50,7 @@
                         </button>
                     </form>
                 </div>
+                
             </div>
         </div>
 

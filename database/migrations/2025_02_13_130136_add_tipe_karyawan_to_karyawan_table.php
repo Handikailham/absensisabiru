@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('karyawan', function (Blueprint $table) {
-            // Periksa apakah kolom id_posisi belum ada
-            if (!Schema::hasColumn('karyawan', 'id_posisi')) {
-                $table->foreignId('id_posisi')->nullable()->constrained('posisi')->onDelete('set null');
-            }
+            // Tambahkan kolom tipe_karyawan dengan opsi: tetap, kontrak, magang
+            $table->enum('tipe_karyawan', ['tetap', 'kontrak', 'magang'])
+                  ->after('role')
+                  ->default('tetap');
         });
     }
 
@@ -25,10 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('karyawan', function (Blueprint $table) {
-            if (Schema::hasColumn('karyawan', 'id_posisi')) {
-                $table->dropForeign(['id_posisi']);
-                $table->dropColumn('id_posisi');
-            }
+            $table->dropColumn('tipe_karyawan');
         });
     }
 };
