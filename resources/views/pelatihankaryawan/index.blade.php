@@ -10,87 +10,75 @@
     body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center space-x-4">
-        <span class="text-gray-700">{{ Auth::user()->nama }}</span>
-        <form action="{{ route('logout') }}" method="POST">
-          @csrf
-          <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition duration-300">
-            Logout
-          </button>
-        </form>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-white shadow-lg sticky top-0 z-10">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Logo and Links -->
+      <div class="flex items-center space-x-6">
+        <!-- Logo -->
+        <img src="{{ asset('image/sabiru.png') }}" alt="Logo" class="h-12">
+        
+        <a href="{{ route('absen.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.index') ? 'font-bold text-blue-600' : '' }} text-lg">
+          Absensi Karyawan
+        </a>
+        <a href="{{ route('absen.riwayatgaji') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.riwayatgaji') ? 'font-bold text-blue-600' : '' }} text-lg">
+          Riwayat Gaji
+        </a>
+        <a href="{{ route('pelatihankaryawan.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('pelatihankaryawan.index') ? 'font-bold text-blue-600' : '' }} text-lg">
+          Pelatihan Karyawan
+        </a>
       </div>
-    </div>
   </nav>
 
-  <!-- Konten -->
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-6 py-8">
+    <!-- Card for content -->
     <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
       <div class="p-6">
         <h1 class="text-3xl font-semibold text-center text-blue-600 mb-6">Data Pelatihan</h1>
 
-        <!-- Alert Success (jika ada) -->
+        <!-- Alert Success (if any) -->
         @if (session('success'))
           <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
             {{ session('success') }}
           </div>
         @endif
 
-        <!-- Tabel Data Pelatihan -->
-        <div class="overflow-x-auto">
-          <table class="w-full table-auto border-collapse border border-gray-300 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-gray-200 text-gray-700">
-                <th class="border border-gray-300 px-6 py-3">No</th>
-                <th class="border border-gray-300 px-6 py-3">Nama Pelatihan</th>
-                <th class="border border-gray-300 px-6 py-3">Tanggal Pendaftaran</th>
-                <th class="border border-gray-300 px-6 py-3">Tanggal Pelatihan</th>
-                <th class="border border-gray-300 px-6 py-3">Alamat</th>
-                <th class="border border-gray-300 px-6 py-3">Deskripsi</th>
-                <th class="border border-gray-300 px-6 py-3">Aksi</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              @foreach ($pelatihan as $no => $data)
-                <tr class="hover:bg-gray-100 text-center border-b">
-                  <td class="px-6 py-4">{{ $no + 1 }}</td>
-                  <td class="px-6 py-4">{{ $data->nama_pelatihan }}</td>
-                  <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}</td>
-                  <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}</td>
-                  <td class="px-6 py-4">{{ $data->alamat }}</td>
-                  <td class="px-6 py-4">{{ $data->deskripsi }}</td>
-                  <td class="px-6 py-4">
-                    @php
-                      // Ambil request yang diajukan karyawan untuk pelatihan ini
-                      $req = $data->requests->where('karyawan_id', Auth::user()->id)->first();
-                    @endphp
+        <!-- Display training data as cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          @foreach ($pelatihan as $no => $data)
+            <div class="bg-white shadow-xl rounded-lg p-6 border border-gray-300">
+              <h3 class="text-xl font-semibold text-blue-600">{{ $data->nama_pelatihan }}</h3>
+              <p class="text-gray-600 mt-2">Tanggal Pendaftaran: {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}</p>
+              <p class="text-gray-600">Tanggal Pelatihan: {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}</p>
+              <p class="text-gray-600 mt-2">Alamat: {{ $data->alamat }}</p>
+              <p class="text-gray-600 mt-2">{{ Str::limit($data->deskripsi, 100) }}</p>
 
-                    @if($req)
-                      @if($req->status == 'pending')
-                          <span class="text-yellow-500 font-semibold">Menunggu Persetujuan</span>
-                      @elseif($req->status == 'accepted')
-                          <span class="text-green-500 font-semibold">Permintaan Diterima</span>
-                      @elseif($req->status == 'declined')
-                          <span class="text-red-500 font-semibold">Permintaan Ditolak</span>
-                      @endif
-                    @else
-                      <form action="{{ route('pelatihan.join', $data->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
-                          Ikuti Pelatihan
-                        </button>
-                      </form>
-                    @endif
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
+              <div class="mt-4">
+                @php
+                  // Get request submitted by the employee for this training
+                  $req = $data->requests->where('karyawan_id', Auth::user()->id)->first();
+                @endphp
+
+                @if($req)
+                  @if($req->status == 'pending')
+                    <span class="text-yellow-500 font-semibold">Menunggu Persetujuan</span>
+                  @elseif($req->status == 'accepted')
+                    <span class="text-green-500 font-semibold">Permintaan Diterima</span>
+                  @elseif($req->status == 'declined')
+                    <span class="text-red-500 font-semibold">Permintaan Ditolak</span>
+                  @endif
+                @else
+                  <form action="{{ route('pelatihan.join', $data->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200">
+                      Ikuti Pelatihan
+                    </button>
+                  </form>
+                @endif
+              </div>
+            </div>
+          @endforeach
         </div>
-
       </div>
     </div>
   </div>
