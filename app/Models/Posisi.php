@@ -17,6 +17,11 @@ class Posisi extends Model
     {
         return $this->hasMany(Karyawan::class, 'id_posisi');
     }
+
+    public function pelatihans()
+    {
+        return $this->belongsToMany(Pelatihan::class, 'pelatihan_posisi', 'posisi_id', 'pelatihan_id');
+    }
 }
 
 

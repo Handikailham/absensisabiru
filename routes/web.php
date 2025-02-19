@@ -5,9 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GajiController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PosisiController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsenController;
-use App\Http\Controllers\PosisiController;
+use App\Http\Controllers\PelatihanController;
+use App\Http\Controllers\PelatihanKaryawanController;
+use App\Http\Controllers\PelatihanRequestController;
 
 // Route untuk halaman welcome
 Route::get('/', function () {
@@ -72,7 +75,21 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::put('/update/{id}', [PosisiController::class, 'update'])->name('posisi.update');
         Route::post('/store', [PosisiController::class, 'store'])->name('posisi.store');
         Route::delete('/delete/{id}', [PosisiController::class, 'destroy'])->name('posisi.destroy');
-       
+    });
+
+    Route::prefix('admin/pelatihan')->group(function(){
+        Route::get('/', [PelatihanController::class, 'index'])->name('pelatihan.index');
+        Route::get('/create', [PelatihanController::class, 'create'])->name('pelatihan.create');
+        Route::post('/store', [PelatihanController::class, 'store'])->name('pelatihan.store');
+        Route::get('/{id}', [PelatihanController::class, 'show'])->name('pelatihan.show');
+        Route::get('/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');
+        Route::put('/{id}', [PelatihanController::class, 'update'])->name('pelatihan.update');
+        Route::delete('/{id}', [PelatihanController::class, 'destroy'])->name('pelatihan.delete');
+    });
+
+    Route::prefix('admin/pelatihanrequest')->group(function(){
+        Route::get('/', [PelatihanRequestController::class, 'index'])->name('pelatihanrequest.index');
+        Route::put('/{id}', [PelatihanRequestController::class, 'update'])->name('pelatihanrequest.update');
     });
 
     
@@ -85,6 +102,8 @@ Route::middleware(['auth', CheckRole::class . ':karyawan'])->group(function () {
     Route::post('/absen/pulang', [AbsenController::class, 'absenPulang'])->name('absen.pulang');
     Route::get('/absen/izin', [AbsenController::class, 'formIzin'])->name('absen.form');
     Route::post('/absen/izin', [AbsenController::class, 'izin'])->name('absen.izin');
+    Route::get('/pelatihan', [PelatihanKaryawanController::class, 'index'])->name('pelatihankaryawan.index');
+    Route::post('/join/{id}', [PelatihanKaryawanController::class, 'requestJoin'])->name('pelatihan.join');
     Route::get('/absen/izin/keterangan/{id}', [AbsenController::class, 'keteranganIzin'])->name('absen.keterangan');
     Route::get('/absen/izin/download/{id}', [AbsenController::class, 'downloadIzinPDF'])->name('absen.generatePDF');
 
