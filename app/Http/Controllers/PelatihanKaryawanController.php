@@ -12,17 +12,19 @@ class PelatihanKaryawanController extends Controller
 {
     public function index()
 {
-    
-    // Karena kamu menggunakan tabel karyawan untuk autentikasi,
-    // Auth::user() sudah mengembalikan instance Karyawan.
     $karyawan = Auth::user();
-    
+    $today = \Carbon\Carbon::today(); // Mendapatkan tanggal hari ini
+
+    // Ambil pelatihan yang sesuai dengan posisi karyawan dan tanggal pendaftaran belum lewat
     $pelatihan = Pelatihan::whereHas('posisis', function($query) use ($karyawan) {
         $query->where('posisi_id', $karyawan->id_posisi);
-    })->get();
+    })
+    ->whereDate('tanggal_pendaftaran', '>=', $today)
+    ->get();
 
     return view('pelatihankaryawan.index', compact('pelatihan'));
 }
+
 
 public function requestJoin($id)
     {

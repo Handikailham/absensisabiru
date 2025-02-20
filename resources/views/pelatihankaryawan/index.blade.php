@@ -40,16 +40,23 @@
     </header>
     
     @php
+      use Carbon\Carbon;
       // Pisahkan pelatihan berdasarkan request karyawan
       $requested = $pelatihan->filter(function ($p) {
           return $p->requests->where('karyawan_id', Auth::user()->id)->isNotEmpty();
       });
+      // Hanya tampilkan pelatihan baru jika:
+      // - karyawan belum mengajukan request, dan
+      // - tanggal pendaftaran masih berlaku (hari ini <= tanggal pendaftaran)
       $new = $pelatihan->filter(function ($p) {
-          return $p->requests->where('karyawan_id', Auth::user()->id)->isEmpty();
+          $today = Carbon::now()->format('Y-m-d');
+          $tglPendaftaran = Carbon::parse($p->tanggal_pendaftaran)->format('Y-m-d');
+          return $p->requests->where('karyawan_id', Auth::user()->id)->isEmpty()
+                 && ($today <= $tglPendaftaran);
       });
     @endphp
 
-    <!-- Section: Pelatihan Terbaru (Belum di-request) -->
+    <!-- Section: Pelatihan Terbaru (Belum di-request dan tanggal pendaftaran belum lewat) -->
     <section class="mb-12">
       <h2 class="text-3xl font-bold text-black mb-6">Pelatihan Terbaru</h2>
       @if($new->isNotEmpty())
@@ -58,7 +65,7 @@
           <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
             <!-- Background Overlay -->
             <div class="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-white opacity-50"></div>
-            <!-- Logo/Icon di pojok kanan, dengan jarak yang cukup -->
+            <!-- Logo/Icon di pojok kanan -->
             <div class="absolute top-5 right-5 z-10">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z" />
@@ -67,18 +74,32 @@
             </div>
             <div class="relative p-6">
               <h3 class="text-2xl font-bold text-black">{{ $data->nama_pelatihan }}</h3>
-              <p class="mt-2 text-gray-600 text-sm"><span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}</p>
-              <p class="text-gray-600 text-sm"><span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}</p>
-              <p class="mt-2 text-gray-600 text-sm"><span class="font-semibold">Lokasi:</span> {{ $data->alamat }}</p>
+              <p class="mt-2 text-gray-600 text-sm">
+                <span class="font-semibold">Pendaftaran:</span> {{ Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}
+              </p>
+              <p class="text-gray-600 text-sm">
+                <span class="font-semibold">Pelatihan:</span> {{ Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}
+              </p>
+              <p class="mt-2 text-gray-600 text-sm">
+                <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
+              </p>
               <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
             </div>
             <div class="relative p-6 bg-gray-50 border-t border-gray-300">
-              <form action="{{ route('pelatihan.join', $data->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition duration-200">
-                  Ikuti Pelatihan
-                </button>
-              </form>
+              @php
+                $today = Carbon::now()->format('Y-m-d');
+                $tglPendaftaran = Carbon::parse($data->tanggal_pendaftaran)->format('Y-m-d');
+              @endphp
+              @if($today == $tglPendaftaran)
+                <form action="{{ route('pelatihan.join', $data->id) }}" method="POST">
+                  @csrf
+                  <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition duration-200">
+                    Ikuti Pelatihan
+                  </button>
+                </form>
+              @elseif($today < $tglPendaftaran)
+                <p class="text-center text-gray-600 font-semibold">Pendaftaran belum dibuka</p>
+              @endif
             </div>
           </div>
         @endforeach
@@ -90,7 +111,6 @@
 
     <hr class="my-8 border-gray-500" />
 
-
     <!-- Section: Pelatihan yang Saya Request -->
     @if($requested->isNotEmpty())
     <section>
@@ -100,7 +120,7 @@
           <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
             <!-- Background Overlay (Subtle) -->
             <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-50"></div>
-            <!-- Logo/Icon di pojok kanan, dengan jarak yang cukup -->
+            <!-- Logo/Icon di pojok kanan -->
             <div class="absolute top-5 right-5 z-10">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a2 2 0 011.414.586l2.414 2.414A2 2 0 0117.414 6H19a2 2 0 012 2v10a2 2 0 01-2 2z" />
@@ -108,10 +128,16 @@
             </div>
             <div class="relative p-6">
               <h3 class="text-2xl font-bold text-gray-800">{{ $data->nama_pelatihan }}</h3>
-              <p class="mt-2 text-gray-600 text-sm"><span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}</p>
-              <p class="text-gray-600 text-sm"><span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}</p>
-              <p class="mt-2 text-gray-600 text-sm"><span class="font-semibold">Lokasi:</span> {{ $data->alamat }}</p>
-              <p class="mt-3 text-gray-700">{{$data->deskripsi }}</p>
+              <p class="mt-2 text-gray-600 text-sm">
+                <span class="font-semibold">Pendaftaran:</span> {{ Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}
+              </p>
+              <p class="text-gray-600 text-sm">
+                <span class="font-semibold">Pelatihan:</span> {{ Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}
+              </p>
+              <p class="mt-2 text-gray-600 text-sm">
+                <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
+              </p>
+              <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
             </div>
             <div class="relative p-6 bg-gray-50 border-t border-gray-300 flex justify-end">
               @php
