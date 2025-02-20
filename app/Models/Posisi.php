@@ -11,7 +11,7 @@ class Posisi extends Model
 
     protected $table = 'posisi';
 
-    protected $fillable = ['nama_posisi'];
+    protected $fillable = ['nama_posisi', 'gaji_pokok', 'tunjangan'];
 
     public function karyawan()
     {

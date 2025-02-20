@@ -13,36 +13,26 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <nav class="bg-white shadow-lg sticky top-0 z-10">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-          <!-- Logo and Links -->
+    <nav class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div class="flex items-center space-x-6">
-            <!-- Logo -->
-            <img src="{{ asset('image/sabiru.png') }}" alt="Logo" class="h-12">
-            
-            <a href="{{ route('absen.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.index') ? 'font-bold text-blue-600' : '' }} text-lg">
-              Absensi Karyawan
-            </a>
-            <a href="{{ route('absen.riwayatgaji') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.riwayatgaji') ? 'font-bold text-blue-600' : '' }} text-lg">
-              Riwayat Gaji
-            </a>
-            <a href="{{ route('pelatihankaryawan.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('pelatihankaryawan.index') ? 'font-bold text-blue-600' : '' }} text-lg">
-              Pelatihan Karyawan
-            </a>
+            <img src="{{ asset('image/sabiru.png') }}" alt="Logo" class="h-10">
+            <a href="{{ route('absen.index') }}" class="text-blue-600 font-bold text-lg">Absensi Karyawan</a>
+            <a href="{{ route('absen.riwayatgaji') }}" class="text-gray-700 hover:text-blue-600 text-lg">Riwayat Gaji</a>
+            <a href="{{ route('pelatihankaryawan.index') }}" class="text-gray-700 hover:text-blue-600 text-lg">Jadwal Pelatihan</a>
           </div>
-      
-          <!-- User Info and Logout -->
-          <div class="flex items-center space-x-6">
-            <span class="text-gray-700 font-medium">{{ Auth::user()->name }}</span>
-            <form action="{{ route('logout') }}" method="POST" class="inline-block">
+          <div class="flex items-center space-x-4">
+            <span class="text-gray-700">{{ Auth::user()->nama }}</span>
+            <form action="{{ route('logout') }}" method="POST">
               @csrf
-              <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition ease-in-out duration-200">
+              <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300">
                 Logout
               </button>
             </form>
           </div>
         </div>
       </nav>
+      
       
 
     <!-- Content -->
@@ -76,7 +66,7 @@
 
                 <!-- Absensi Status -->
                 <div class="bg-gray-100 p-8 rounded-xl shadow-2xl">
-                    <h3 class="text-xl font-semibold mb-6">Status Absensi Hari Ini</h3>
+                    <h3 class="text-xl font-semibold mb-6">Selamat Datang {{ Auth::user()->nama }}</h3>
                     @if ($absenHariIni)
                         <p class="flex items-center text-lg">
                             <span class="mr-2">Status:</span>
