@@ -1,108 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Gaji</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Gaji</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
-   <nav class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('admin.tampil') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('admin.tampil') ? 'font-bold text-blue-600' : '' }}">
-                    Data Karyawan
-                </a>
-                <a href="{{ route('absen.admin.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.admin.index') ? 'font-bold text-blue-600' : '' }}">
-                    Data Absensi
-                </a>
-                <a href="{{ route('posisi.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.admin.index') ? 'font-bold text-blue-600' : '' }}">
-                    Data Posisi
-                </a>
-                <a href="{{ route('gaji.index') }}" class="text-gray-800 hover:text-blue-600 {{ request()->routeIs('absen.admin.index') ? 'font-bold text-blue-600' : '' }}">
-                    Data Gaji
-                </a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-700">{{ Auth::user()->name }}</span>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition duration-300">
-                        Logout
-                    </button>
-                </form>
-            </div>
+  <div class="flex">
+    <!-- Sidebar: pastikan lebar tetap dengan flex-shrink-0 -->
+    <aside class="w-64 flex-shrink-0 bg-blue-600 shadow-lg min-h-screen">
+      <div class="p-6">
+        <div class="flex items-center space-x-3">
+            <img src="{{ asset('image/sabiru.png') }}" alt="Logo Sabirunya" class="w-10 h-10" style="filter: invert(1);">
+          <span class="text-xl font-bold text-white">Samudra Biru</span>
         </div>
-    </nav>
+        <nav class="mt-8">
+          <ul>
+            <!-- Data Karyawan -->
+            <li class="mb-4">
+              <a href="{{ route('admin.tampil') }}"
+                 class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('admin.tampil') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Data Karyawan
+              </a>
+            </li>
+            <!-- Data Absensi -->
+            <li class="mb-4">
+              <a href="{{ route('absen.admin.index') }}"
+                 class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('absen.admin.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6 1a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Data Absensi
+              </a>
+            </li>
+            <!-- Data Posisi -->
+            <li class="mb-4">
+              <a href="{{ route('posisi.index') }}"
+                 class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('posisi.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 6h12M6 10h12M6 14h12M6 18h12M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                </svg>
+                Data Posisi
+              </a>
+            </li>
+            <!-- Data Gaji -->
+            <li class="mb-4">
+              <a href="{{ route('gaji.index') }}"
+                 class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('gaji.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2 7a2 2 0 012-2h15a2 2 0 012 2v2H2V7z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2 11h20v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z" />
+                </svg>
+                Data Gaji
+              </a>
+            </li>
+            <!-- Data Pelatihan -->
+            <li class="mb-4">
+              <a href="{{ route('pelatihan.index') }}"
+                 class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('pelatihankaryawan.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 14l9-5-9-5-9 5 9 5z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 14l6.16-3.422a12.083 12.083 0 01.84 4.196c0 2.47-1.115 4.688-2.905 6.072A11.953 11.953 0 0112 21c-1.818 0-3.53-.458-5.095-1.258A7.986 7.986 0 013 14.774a12.083 12.083 0 01.84-4.196L12 14z" />
+                </svg>
+                Data Pelatihan
+              </a>
+            </li>
+            <!-- Request Pelatihan -->
+            <li class="mb-4">
+              <a href="{{ route('pelatihanrequest.index') }}"
+                 class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('pelatihanrequest.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m-6-8h6m2 12h2a2 2 0 002-2V6a2 2 0 00-2-2h-2M7 4H5a2 2 0 00-2 2v12a2 2 0 002 2h2" />
+                </svg>
+                Request Pelatihan
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="p-6 border-t border-blue-500">
+        <div class="text-white mb-3">{{ Auth::user()->name }}</div>
+        <form action="{{ route('logout') }}" method="POST">
+          @csrf
+          <button type="submit"
+                  class="w-full bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors duration-200">
+            Logout
+          </button>
+        </form>
+      </div>
+    </aside>
 
-    <div class="container mx-auto px-4 py-8">
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-            <div class="p-6">
-                <h1 class="text-3xl font-semibold text-center text-blue-600 mb-6">Data Gaji Karyawan</h1>
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <!-- Baris judul dan tombol tambah data -->
+      <div class="flex justify-between items-end mb-6">
+        <h1 class="text-3xl font-semibold text-blue-600">Data Gaji Karyawan</h1>
+        <a href="{{ route('gaji.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 shadow-md transition-colors duration-200">
+          Tambah Data
+        </a>
+      </div>
 
-                @if (session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <div class="flex justify-between items-center mb-4">
-                    <a href="{{ route('gaji.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 shadow-md">
-                        Tambah Data
-                    </a>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full table-auto border-collapse border border-gray-300 rounded-lg overflow-hidden">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-700">
-                                <th class="border border-gray-300 px-6 py-3">No</th>
-                                <th class="border border-gray-300 px-6 py-3">Nama Karyawan</th>
-                                <th class="border border-gray-300 px-6 py-3">Posisi</th>
-                                <th class="border border-gray-300 px-6 py-3">Gaji Pokok</th>
-                                <th class="border border-gray-300 px-6 py-3">Tunjangan</th>
-                                <th class="border border-gray-300 px-6 py-3">Lembur</th>
-                                <th class="border border-gray-300 px-6 py-3">Bonus</th>
-                                <th class="border border-gray-300 px-6 py-3">Total Gaji</th>
-                                <th class="border border-gray-300 px-6 py-3">Tanggal Gajian</th>
-                                <th class="border border-gray-300 px-6 py-3">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white">
-                            @foreach ($gaji as $no => $item)
-                            <tr class="hover:bg-gray-100 text-center border-b">
-                                <td class="px-6 py-4">{{ $no + 1 }}</td>
-                                <td class="px-6 py-4">{{ optional($item->karyawan)->nama ?? 'N/A' }}</td>
-                                <td class="px-6 py-4">{{ optional($item->posisi)->nama_posisi ?? 'N/A' }}</td>
-                                <td class="px-6 py-4">
-                                    {{ number_format(optional($item->karyawan)->tipe_karyawan == 'magang' ? 0 : optional($item->posisi)->gaji_pokok, 0, ',', '.') }}
-                                </td>                                
-                                <td class="px-6 py-4">{{ number_format($item->posisi->tunjangan, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4">{{ number_format($item->lembur, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4">{{ number_format($item->bonus, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4 font-semibold text-green-600">{{ number_format($item->total_gaji, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4">{{ date('d M Y', strtotime($item->tanggal_gajian)) }}</td>
-                                <td class="px-6 py-4 text-center whitespace-nowrap">
-                                    <a href="{{ route('gaji.export.one', $item->id) }}" 
-                                       class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">
-                                        Ekspor PDF
-                                    </a>
-                                </td>
-                                
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    
-                </div>
-            </div>
+      @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center">
+          {{ session('success') }}
         </div>
-    </div>
+      @endif
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border-collapse">
+          <thead>
+            <tr class="bg-gray-200 text-gray-700">
+              <th class="border px-6 py-3 whitespace-nowrap">No</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Nama Karyawan</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Posisi</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Gaji Pokok</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Tunjangan</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Lembur</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Bonus</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Total Gaji</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Tanggal Gajian</th>
+              <th class="border px-6 py-3 whitespace-nowrap">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            @foreach ($gaji as $no => $item)
+            <tr class="hover:bg-gray-100 text-center border-b">
+              <td class="px-6 py-4 whitespace-nowrap">{{ $no + 1 }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ optional($item->karyawan)->nama ?? 'N/A' }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ optional($item->posisi)->nama_posisi ?? 'N/A' }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                {{ number_format(optional($item->karyawan)->tipe_karyawan == 'magang' ? 0 : optional($item->posisi)->gaji_pokok, 0, ',', '.') }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item->posisi->tunjangan, 0, ',', '.') }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item->lembur, 0, ',', '.') }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item->bonus, 0, ',', '.') }}</td>
+              <td class="px-6 py-4 whitespace-nowrap font-semibold text-green-600">{{ number_format($item->total_gaji, 0, ',', '.') }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">{{ date('d M Y', strtotime($item->tanggal_gajian)) }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex justify-center">
+                  <a href="{{ route('gaji.export.one', $item->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">
+                    Ekspor PDF
+                  </a>
+                </div>
+              </td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

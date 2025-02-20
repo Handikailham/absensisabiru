@@ -15,11 +15,11 @@
 <body class="bg-gray-100 min-h-screen">
   <div class="flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-blue-600 shadow-lg">
+    <aside class="w-64 bg-blue-600 shadow-lg min-h-screen">
       <div class="p-6">
-        <!-- Logo dan Nama Perusahaan dalam 1 Baris -->
+        <!-- Logo dan Nama Perusahaan -->
         <div class="flex items-center space-x-3">
-          <img src="{{ asset('image/sabiru.png') }}" alt="Logo Sabirunya" class="w-10 h-10">
+          <img src="{{ asset('image/sabiru.png') }}" alt="Logo Sabirunya" class="w-10 h-10" style="filter: invert(1);">
           <span class="text-xl font-bold text-white">Samudra Biru</span>
         </div>
         <nav class="mt-8">
@@ -46,7 +46,7 @@
             <li class="mb-4">
               <a href="{{ route('posisi.index') }}" class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('posisi.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7M16 3h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h12M6 10h12M6 14h12M6 18h12M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
                 </svg>
                 Data Posisi
               </a>
@@ -55,9 +55,29 @@
             <li class="mb-4">
               <a href="{{ route('gaji.index') }}" class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('gaji.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4m0-8v8m0 0c2.21 0 4-1.79 4-4s-1.79-4-4-4" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 7a2 2 0 012-2h15a2 2 0 012 2v2H2V7z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 11h20v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6z"/>
                 </svg>
                 Data Gaji
+              </a>
+            </li>
+            <!-- Data Pelatihan -->
+            <li class="mb-4">
+              <a href="{{ route('pelatihan.index') }}" class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('pelatihankaryawan.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.84 4.196c0 2.47-1.115 4.688-2.905 6.072A11.953 11.953 0 0112 21c-1.818 0-3.53-.458-5.095-1.258A7.986 7.986 0 013 14.774a12.083 12.083 0 01.84-4.196L12 14z" />
+                </svg>
+                Data Pelatihan
+              </a>
+            </li>
+            <!-- Request Pelatihan -->
+            <li class="mb-4">
+              <a href="{{ route('pelatihanrequest.index') }}" class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('pelatihanrequest.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m-6-8h6m2 12h2a2 2 0 002-2V6a2 2 0 00-2-2h-2M7 4H5a2 2 0 00-2 2v12a2 2 0 002 2h2" />
+                </svg>
+                Request Pelatihan
               </a>
             </li>
           </ul>
