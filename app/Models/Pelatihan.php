@@ -15,6 +15,8 @@ class Pelatihan extends Model
         'nama_pelatihan',
         'tanggal_pendaftaran',
         'tanggal_pelatihan',
+        'waktu_mulai',
+        'waktu_akhir',
         'alamat',
         'deskripsi'
     ];
@@ -29,4 +31,10 @@ class Pelatihan extends Model
     {
         return $this->hasMany(PelatihanRequest::class, 'pelatihan_id');
     }
+
+    public function subtes()
+{
+    return $this->hasMany(\App\Models\Subtes::class, 'pelatihan_id')->orderBy('urutan');
+}
+
 }

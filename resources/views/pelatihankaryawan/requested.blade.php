@@ -53,52 +53,65 @@
     </header>
     
     @if($pelatihan->isNotEmpty())
-    <div class="space-y-8">
-      @foreach ($pelatihan as $data)
-      <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
-        <!-- Background Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-50"></div>
-        <!-- Icon di pojok kanan -->
-        <div class="absolute top-5 right-5 z-10">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a2 2 0 011.414.586l2.414 2.414A2 2 0 0117.414 6H19a2 2 0 012 2v10a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <div class="relative p-6">
-          <h3 class="text-2xl font-bold text-gray-800">{{ $data->nama_pelatihan }}</h3>
-          <p class="mt-2 text-gray-600 text-sm">
-            <span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}
-          </p>
-          <p class="text-gray-600 text-sm">
-            <span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}
-          </p>
-          <p class="mt-2 text-gray-600 text-sm">
-            <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
-          </p>
-          <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
-        </div>
-        <div class="relative p-6 bg-gray-50 border-t border-gray-300">
-          @if($data->request_status == 'pending')
-            <span class="px-4 py-2 text-lg font-semibold text-yellow-600">Menunggu Persetujuan</span>
-          @elseif($data->request_status == 'declined')
-            <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
-          @elseif($data->request_status == 'accepted')
-            <div id="countdown-{{ $data->id }}" data-target="{{ $data->target_time }}" class="text-lg font-semibold text-green-600">
-              Loading countdown...
+      <div class="space-y-8">
+        @foreach ($pelatihan as $data)
+          <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
+            <!-- Background Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-50"></div>
+            <!-- Icon di pojok kanan -->
+            <div class="absolute top-5 right-5 z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a2 2 0 011.414.586l2.414 2.414A2 2 0 0117.414 6H19a2 2 0 012 2v10a2 2 0 01-2 2z" />
+              </svg>
             </div>
-            <div id="start-button-{{ $data->id }}" class="hidden">
-              <!-- Tombol diubah teksnya menjadi "Mulai / Lanjutkan Pelatihan" -->
-              <a href="{{ route('pelatihan.mulai', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
-                Mulai / Lanjutkan Pelatihan
-              </a>
+            <div class="relative p-6">
+              <h3 class="text-2xl font-bold text-gray-800">{{ $data->nama_pelatihan }}</h3>
+              <p class="mt-2 text-gray-600 text-sm">
+                <span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}
+              </p>
+              <p class="text-gray-600 text-sm">
+                <span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}
+              </p>
+              <p class="mt-2 text-gray-600 text-sm">
+                <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
+              </p>
+              <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
             </div>
-          @endif
-        </div>
+            <div class="relative p-6 bg-gray-50 border-t border-gray-300">
+              @if($data->request_status == 'pending')
+                <span class="px-4 py-2 text-lg font-semibold text-yellow-600">Menunggu Persetujuan</span>
+              @elseif($data->request_status == 'declined')
+                <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
+              @elseif($data->request_status == 'accepted')
+                @if($data->tes_selesai)
+                  <div class="flex justify-between items-center">
+                    <span class="px-4 py-2 text-lg font-semibold text-green-600">Pelatihan Selesai</span>
+                    <a href="{{ route('pelatihan.hasil', $data->id) }}" class="px-4 py-2 text-lg font-semibold text-blue-600 hover:underline">
+                      Lihat Hasil
+                    </a>
+                  </div>
+                @else
+                  <div id="countdown-{{ $data->id }}" data-target="{{ $data->target_time }}" class="text-lg font-semibold text-green-600">
+                    Loading countdown...
+                  </div>
+                  <div id="start-button-{{ $data->id }}" class="hidden">
+                    <a href="{{ route('pelatihan.mulai', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
+                      @if($data->tes_started)
+                        Lanjutkan Tes
+                      @else
+                        Mulai Tes
+                      @endif
+                    </a>
+                  </div>
+                @endif
+              @endif
+            </div>
+          </div>
+        @endforeach
       </div>
-      @endforeach
-    </div>
     @else
-    <p class="text-center text-gray-600">Anda belum mengajukan pelatihan apapun.</p>
+      <p class="text-center text-gray-600">Anda belum mengajukan pelatihan apapun.</p>
     @endif
   </div>
 
@@ -112,7 +125,6 @@
         var distance = countDownDate - now;
   
         if (distance < 0) {
-          // Jika waktu sudah tiba, sembunyikan countdown dan tampilkan tombol Mulai / Lanjutkan Pelatihan
           el.style.display = 'none';
           var startButton = document.getElementById('start-button-' + el.id.split('-')[1]);
           if(startButton){

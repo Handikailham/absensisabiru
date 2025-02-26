@@ -133,6 +133,8 @@
               <th class="border border-gray-300 px-6 py-3">Nama Pelatihan</th>
               <th class="border border-gray-300 px-6 py-3">Tanggal Pendaftaran</th>
               <th class="border border-gray-300 px-6 py-3">Tanggal Pelatihan</th>
+              <th class="border border-gray-300 px-6 py-3">Waktu Mulai</th>
+              <th class="border border-gray-300 px-6 py-3">Waktu Akhir</th>
               <th class="border border-gray-300 px-6 py-3">Alamat</th>
               <th class="border border-gray-300 px-6 py-3">Deskripsi</th>
               <th class="border border-gray-300 px-6 py-3">Aksi</th>
@@ -145,6 +147,8 @@
               <td class="px-6 py-4">{{ $data->nama_pelatihan }}</td>
               <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}</td>
               <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}</td>
+              <td class="px-6 py-4">{{ $data->waktu_mulai }}</td>
+              <td class="px-6 py-4">{{ $data->waktu_akhir }}</td>
               <td class="px-6 py-4">{{ $data->alamat }}</td>
               <td class="px-6 py-4">{{ $data->deskripsi }}</td>
               <td class="px-6 py-4">

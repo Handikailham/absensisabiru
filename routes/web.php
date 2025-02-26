@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TesController;
 use App\Http\Controllers\GajiController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
@@ -9,8 +10,8 @@ use App\Http\Controllers\PosisiController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsenController;
 use App\Http\Controllers\PelatihanController;
-use App\Http\Controllers\PelatihanKaryawanController;
 use App\Http\Controllers\PelatihanRequestController;
+use App\Http\Controllers\PelatihanKaryawanController;
 
 // Route untuk halaman welcome
 Route::get('/', function () {
@@ -103,9 +104,20 @@ Route::middleware(['auth', CheckRole::class . ':karyawan'])->group(function () {
     Route::post('/absen/pulang', [AbsenController::class, 'absenPulang'])->name('absen.pulang');
     Route::get('/absen/izin', [AbsenController::class, 'formIzin'])->name('absen.form');
     Route::post('/absen/izin', [AbsenController::class, 'izin'])->name('absen.izin');
+    
     Route::get('/pelatihan', [PelatihanKaryawanController::class, 'index'])->name('pelatihankaryawan.index');
+    Route::get('/pelatihan/requested', [PelatihanKaryawanController::class, 'requested'])->name('pelatihankaryawan.requested');
     Route::get('/riwayat-gaji', [GajiController::class, 'riwayatForKaryawan'])->name('absen.riwayatgaji');
     Route::post('/join/{id}', [PelatihanKaryawanController::class, 'requestJoin'])->name('pelatihan.join');
+    Route::get('/pelatihan/{pelatihan_id}/mulai/{sub_tes_index?}', [TesController::class, 'mulai'])
+    ->name('pelatihan.mulai');
+
+Route::post('/pelatihan/{pelatihan_id}/submit/{sub_tes_index}', [TesController::class, 'submitSubtes'])
+    ->name('pelatihan.submit');
+
+Route::get('/pelatihan/{pelatihan_id}/hasil', [TesController::class, 'hasil'])
+    ->name('pelatihan.hasil');
+
     Route::get('/absen/izin/keterangan/{id}', [AbsenController::class, 'keteranganIzin'])->name('absen.keterangan');
     Route::get('/absen/izin/download/{id}', [AbsenController::class, 'downloadIzinPDF'])->name('absen.generatePDF');
 
