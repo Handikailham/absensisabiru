@@ -54,6 +54,20 @@
           class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
       </div>
 
+      <!-- Waktu Mulai -->
+      <div>
+        <label for="waktu_mulai" class="block text-sm font-medium text-gray-700">Waktu Mulai</label>
+        <input type="time" id="waktu_mulai" name="waktu_mulai" step="1" required 
+          class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <!-- Waktu Akhir -->
+      <div>
+        <label for="waktu_akhir" class="block text-sm font-medium text-gray-700">Waktu Akhir</label>
+        <input type="time" id="waktu_akhir" name="waktu_akhir" step="1" required 
+          class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
       <!-- Alamat Pelatihan -->
       <div>
         <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat Pelatihan</label>
@@ -81,6 +95,7 @@
         </div>
       </div>
 
+      <!-- Tombol Aksi -->
       <div class="flex justify-between">
         <a href="{{ route('pelatihan.index') }}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
           Kembali

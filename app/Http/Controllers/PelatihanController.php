@@ -44,6 +44,8 @@ class PelatihanController extends Controller
             'nama_pelatihan'      => 'required|string|max:255',
             'tanggal_pendaftaran' => 'required|date',
             'tanggal_pelatihan'   => 'required|date',
+            'waktu_mulai'         => 'required|date_format:H:i:s',
+            'waktu_akhir'         => 'required|date_format:H:i:s',
             'alamat'              => 'required|string|max:255',
             'deskripsi'           => 'required|string',
             'posisi_ids'          => 'required|array'
@@ -54,6 +56,8 @@ class PelatihanController extends Controller
             'nama_pelatihan'      => $request->nama_pelatihan,
             'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
             'tanggal_pelatihan'   => $request->tanggal_pelatihan,
+            'waktu_mulai'         => $request->waktu_mulai,
+            'waktu_akhir'         => $request->waktu_akhir,
             'alamat'              => $request->alamat,
             'deskripsi'           => $request->deskripsi,
         ]);
@@ -108,30 +112,34 @@ class PelatihanController extends Controller
 
     // Memperbarui data pelatihan
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama_pelatihan'      => 'required|string|max:255',
-            'tanggal_pendaftaran' => 'required|date',
-            'tanggal_pelatihan'   => 'required|date',
-            'alamat'              => 'required|string|max:255',
-            'deskripsi'           => 'required|string',
-            'posisi_ids'          => 'required|array'
-        ]);
+{
+    $request->validate([
+        'nama_pelatihan'      => 'required|string|max:255',
+        'tanggal_pendaftaran' => 'required|date',
+        'tanggal_pelatihan'   => 'required|date',
+        'waktu_mulai'         => 'required|date_format:H:i:s',
+        'waktu_akhir'         => 'required|date_format:H:i:s',
+        'alamat'              => 'required|string|max:255',
+        'deskripsi'           => 'required|string',
+        'posisi_ids'          => 'required|array'
+    ]);
 
-        $pelatihan = Pelatihan::findOrFail($id);
-        $pelatihan->update([
-            'nama_pelatihan'      => $request->nama_pelatihan,
-            'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
-            'tanggal_pelatihan'   => $request->tanggal_pelatihan,
-            'alamat'              => $request->alamat,
-            'deskripsi'           => $request->deskripsi,
-        ]);
+    $pelatihan = Pelatihan::findOrFail($id);
+    $pelatihan->update([
+        'nama_pelatihan'      => $request->nama_pelatihan,
+        'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
+        'tanggal_pelatihan'   => $request->tanggal_pelatihan,
+        'waktu_mulai'         => $request->waktu_mulai,
+        'waktu_akhir'         => $request->waktu_akhir,
+        'alamat'              => $request->alamat,
+        'deskripsi'           => $request->deskripsi,
+    ]);
 
-        // Update relasi many-to-many menggunakan sync
-        $pelatihan->posisis()->sync($request->posisi_ids);
+    // Update relasi many-to-many menggunakan sync
+    $pelatihan->posisis()->sync($request->posisi_ids);
 
-        return redirect()->route('pelatihan.index')->with('success', 'Pelatihan berhasil diperbarui.');
-    }
+    return redirect()->route('pelatihan.index')->with('success', 'Pelatihan berhasil diperbarui.');
+}
 
      // (Opsional) Hapus pelatihan
     public function destroy($id)

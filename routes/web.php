@@ -4,9 +4,11 @@ use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TesController;
 use App\Http\Controllers\GajiController;
+use App\Http\Controllers\SoalController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PosisiController;
+use App\Http\Controllers\SubtesController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsenController;
 use App\Http\Controllers\PelatihanController;
@@ -94,6 +96,27 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::put('/{id}', [PelatihanRequestController::class, 'update'])->name('pelatihanrequest.update');
     });
 
+    Route::prefix('admin/soal')->group(function(){
+        Route::get('/', [SoalController::class, 'index'])->name('soal.index');
+        Route::get('/create', [SoalController::class, 'create'])->name('soal.create');
+        Route::post('/store', [SoalController::class, 'store'])->name('soal.store');
+        Route::get('/{id}', [SoalController::class, 'show'])->name('soal.show');
+        Route::get('/{id}/edit', [SoalController::class, 'edit'])->name('soal.edit');
+        Route::put('/{id}', [SoalController::class, 'update'])->name('soal.update');
+        Route::delete('/{id}', [SoalController::class, 'destroy'])->name('soal.destroy');
+    });
+
+    Route::prefix('admin/subtes')->group(function(){
+        Route::get('/', [SubtesController::class, 'index'])->name('subtes.index');
+        Route::get('/create', [SubtesController::class, 'create'])->name('subtes.create');
+        Route::post('/store', [SubtesController::class, 'store'])->name('subtes.store');
+        Route::get('/{id}', [SubtesController::class, 'show'])->name('subtes.show');
+        Route::get('/{id}/edit', [SubtesController::class, 'edit'])->name('subtes.edit');
+        Route::put('/{id}', [SubtesController::class, 'update'])->name('subtes.update');
+        Route::delete('/{id}', [SubtesController::class, 'destroy'])->name('subtes.destroy');
+    });
+    
+    
     
 });
 

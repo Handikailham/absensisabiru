@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Pelatihan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Pelatihan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
 <body class="bg-gray-100 py-10">
   <h2 class="text-3xl font-bold text-center text-blue-500 mb-6">Edit Pelatihan</h2>
   
   <div class="max-w-lg mx-auto bg-white p-6 rounded-md shadow-md">
-    <!-- Notifikasi Sukses dengan warna biru -->
+    <!-- Notifikasi Sukses -->
     @if(session('success'))
       <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
         {{ session('success') }}
@@ -66,6 +66,20 @@
         <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi Pelatihan</label>
         <textarea name="deskripsi" id="deskripsi" rows="3" required
           class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('deskripsi', $pelatihan->deskripsi) }}</textarea>
+      </div>
+
+      <!-- Waktu Mulai -->
+      <div>
+        <label for="waktu_mulai" class="block text-sm font-medium text-gray-700">Waktu Mulai</label>
+        <input type="time" name="waktu_mulai" id="waktu_mulai" value="{{ old('waktu_mulai', $pelatihan->waktu_mulai) }}" step="1" required
+          class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <!-- Waktu Akhir -->
+      <div>
+        <label for="waktu_akhir" class="block text-sm font-medium text-gray-700">Waktu Akhir</label>
+        <input type="time" name="waktu_akhir" id="waktu_akhir" value="{{ old('waktu_akhir', $pelatihan->waktu_akhir) }}" step="1" required
+          class="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
       </div>
 
       <!-- Pilih Posisi -->

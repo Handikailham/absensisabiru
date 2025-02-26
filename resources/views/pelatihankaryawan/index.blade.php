@@ -78,20 +78,28 @@
           <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
         </div>
         <div class="relative p-6 bg-gray-50 border-t border-gray-300">
-          @if($data->request_status == 'pending')
-            <span class="px-4 py-2 text-lg font-semibold text-yellow-600">Menunggu Persetujuan</span>
-          @elseif($data->request_status == 'declined')
-            <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
-          @elseif($data->request_status == 'accepted')
-            <div id="countdown-{{ $data->id }}" data-target="{{ $data->target_time }}" class="text-lg font-semibold text-green-600">
-              Loading countdown...
-            </div>
-            <div id="start-button-{{ $data->id }}" class="hidden">
-              <!-- Tombol diubah teksnya menjadi "Mulai / Lanjutkan Pelatihan" -->
-              <a href="{{ route('pelatihan.mulai', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
-                Mulai / Lanjutkan Pelatihan
-              </a>
-            </div>
+          @if(isset($data->request_status))
+            @if($data->request_status == 'pending')
+              <span class="px-4 py-2 text-lg font-semibold text-yellow-600">Menunggu Persetujuan</span>
+            @elseif($data->request_status == 'declined')
+              <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
+            @elseif($data->request_status == 'accepted')
+              <div id="countdown-{{ $data->id }}" data-target="{{ $data->target_time }}" class="text-lg font-semibold text-green-600">
+                Loading countdown...
+              </div>
+              <div id="start-button-{{ $data->id }}" class="hidden">
+                <a href="{{ route('pelatihan.mulai', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
+                  Mulai / Lanjutkan Pelatihan
+                </a>
+              </div>
+            @endif
+          @else
+            <form action="{{ route('pelatihan.join', $data->id) }}" method="POST">
+              @csrf
+              <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition duration-200">
+                Ikuti Pelatihan
+              </button>
+            </form>
           @endif
         </div>
       </div>
