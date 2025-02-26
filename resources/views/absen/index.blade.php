@@ -1,77 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Absen</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        // Script untuk menampilkan jam real-time
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('current-time').innerText = `${hours}:${minutes}:${seconds}`;
-        }
-
-        // Update jam setiap detik
-        setInterval(updateClock, 1000);
-        window.onload = updateClock;
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pelatihan Terdahulu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">Absensi Karyawan</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}" 
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                           Logout
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+<body class="bg-gray-50 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-6">
+        <img src="{{ asset('image/sabiru.png') }}" alt="Logo" class="h-10">
+        <a href="{{ route('absen.index') }}" class=" text-blue-600 font-bold hover:text-blue-600 text-lg">Absensi Karyawan</a>
+        <a href="{{ route('absen.riwayatgaji') }}" class=" text-gray-700  hover:text-blue-600 text-lg">Riwayat Gaji</a>
+        <!-- Dropdown Jadwal Pelatihan -->
+        <div x-data="{ open: false }" class="relative">
+          <button @click="open = !open" class="flex items-center text-gray-700  text-lg focus:outline-none">
+            Jadwal Pelatihan
+            <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div x-show="open" @click.away="open = false" class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
+            <a href="{{ route('pelatihankaryawan.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">Pelatihan Terbaru</a>
+            <a href="{{ route('pelatihankaryawan.requested') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-500 hover:text-white">Pelatihan Saya</a>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-700">{{ Auth::user()->nama }}</span>
+        <form action="{{ route('logout') }}" method="POST">
+          @csrf
+          <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300">
+            Logout
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
+      
+      
+
+    <!-- Content -->
+    <div class="flex-1 p-6">
+        <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-xl p-8">
+            <!-- Success/Error Message -->
+            @if(session('success'))
+                <div class="bg-green-100 text-green-700 p-4 mb-6 rounded-lg flex items-center">
+                    <svg class="w-6 h-6 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="bg-red-100 text-red-700 p-4 mb-6 rounded-lg flex items-center">
+                    <svg class="w-6 h-6 mr-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <!-- Waktu Sekarang & Status Absensi -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8 rounded-xl shadow-2xl transform hover:scale-105 transition duration-300">
+                    <h2 class="text-xl font-semibold mb-4">Waktu Sekarang</h2>
+                    <p id="current-time" class="text-5xl font-bold mb-4"></p>
+                    <p class="text-lg opacity-80">{{ now()->translatedFormat('l, d F Y') }}</p>
+                </div>
+
+                <!-- Absensi Status -->
+                <div class="bg-gray-100 p-8 rounded-xl shadow-2xl">
+                    <h3 class="text-xl font-semibold mb-6">Selamat Datang {{ Auth::user()->nama }}</h3>
+                    @if ($absenHariIni)
+                        <p class="flex items-center text-lg">
+                            <span class="mr-2">Status:</span>
+                            <span class="px-4 py-2 bg-blue-500 text-white rounded-full">{{ ucfirst($absenHariIni->status) }}</span>
+                        </p>
+                        <p>Jam Masuk: {{ $absenHariIni->jam_masuk ?? '-' }}</p>
+                        <p>Jam Pulang: {{ $absenHariIni->jam_pulang ?? '-' }}</p>
+                        @if (!$absenHariIni->jam_pulang && $absenHariIni->status !== 'izin')
+                            <form method="POST" action="{{ route('absen.pulang') }}">
+                                @csrf
+                                <button class="w-full mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200">
+                                    Absen Pulang
+                                </button>
+                            </form>
+                        @endif
+                    @else
+                        <form method="POST" action="{{ route('absen.masuk') }}">
                             @csrf
+                            <button class="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-200">
+                                Absen Masuk
+                            </button>
                         </form>
-                    </li>
-                </ul>
+                        <a href="{{ route('absen.izin') }}" class="w-full bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition duration-200 text-center mt-6 block">
+                            Ajukan Izin
+                        </a>
+                    @endif
+                </div>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-4">
-        <h1>Halaman Absen</h1>
-
-        <!-- Tampilkan waktu saat ini -->
-        <p><strong>Waktu Sekarang:</strong> <span id="current-time"></span></p>
-
-        <p>Halo, {{ $karyawan->nama }}</p>
-        <p>Tanggal: {{ now()->toDateString() }}</p>
-
-        @if ($absenHariIni)
-            <p>Status: {{ ucfirst($absenHariIni->status) }}</p>
-            <p>Jam Masuk: {{ $absenHariIni->jam_masuk ?? '-' }}</p>
-            <p>Jam Pulang: {{ $absenHariIni->jam_pulang ?? '-' }}</p>
-
-            @if (!$absenHariIni->jam_pulang)
-                <form method="POST" action="{{ route('absen.pulang') }}">
-                    @csrf
-                    <button class="btn btn-primary">Absen Pulang</button>
-                </form>
-            @endif
-        @else
-            <form method="POST" action="{{ route('absen.store') }}">
-                @csrf
-                <button class="btn btn-success">Absen Masuk</button>
-            </form>
-            <form method="POST" action="{{ route('absen.izin') }}">
-                @csrf
-                <button class="btn btn-warning">Ajukan Izin</button>
-            </form>
-        @endif
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', options);
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
 </body>
 </html>

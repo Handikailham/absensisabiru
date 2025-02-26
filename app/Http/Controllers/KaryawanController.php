@@ -1,98 +1,77 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Karyawan;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Posisi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class KaryawanController extends Controller
 {
-    public function tampil(){
-        $karyawan = Karyawan::get();
+    public function tampil()
+    {
+        $karyawan = Karyawan::with('posisi')->get();
         return view('admin.tampil', compact('karyawan'));
     }
 
-
-    public function tambah(){
-        return view('admin.tambah');
+    public function tambah()
+    {
+        $posisi = Posisi::all();
+        return view('admin.tambah', compact('posisi'));
     }
 
-
-
-    public function submit(Request $request)
+    public function submit(Request $request) // sebelumnya submit() sebagai store()
     {
-        // Validasi input
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:karyawan,email',
-            'password' => 'required|string|min:6',
-            'role' => 'required|string|in:admin,karyawan',
+            'password' => 'required|min:6',
+            'role' => 'required|in:admin,karyawan',
+            'id_posisi' => 'nullable|exists:posisi,id',
+            'tipe_karyawan' => 'required|in:tetap,kontrak,magang'
         ]);
-    
-        // Simpan data ke database
-        $karyawan = new Karyawan();
-        $karyawan->nama = $request->nama;
-        $karyawan->email = $request->email;
-        $karyawan->password = bcrypt($request->password); // Simpan password yang sudah di-hash
-        $karyawan->role = $request->role;
-        $karyawan->save();
-    
-        // Redirect dengan pesan sukses
-        return redirect()->route('admin.tampil')->with('success', 'Data karyawan berhasil ditambahkan!');
+
+        $validated['password'] = Hash::make($request->password);
+
+        Karyawan::create($validated);
+
+        return redirect()->route('admin.tampil')->with('success', 'Karyawan berhasil ditambahkan');
     }
-    
-
-
 
     public function edit($id)
     {
-        
         $karyawan = Karyawan::findOrFail($id);
-    
-        
-        return view('admin.edit', compact('karyawan'));
+        $posisi = Posisi::all();
+        return view('admin.edit', compact('karyawan', 'posisi'));
     }
-    
+
     public function update(Request $request, $id)
     {
-        
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:karyawan,email,' . $id, 
-            'password' => 'nullable|string|min:6', 
-            'role' => 'required|string|in:admin,karyawan', 
-        ]);
-    
-        
         $karyawan = Karyawan::findOrFail($id);
-    
-       
-        $karyawan->nama = $request->nama;
-        $karyawan->email = $request->email;
-    
-       
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:karyawan,email,' . $id,
+            'password' => 'nullable|min:6',
+            'role' => 'required|in:admin,karyawan',
+            'id_posisi' => 'nullable|exists:posisi,id',
+            'tipe_karyawan' => 'required|in:tetap,kontrak,magang'
+        ]);
+
         if ($request->filled('password')) {
-            $karyawan->password = bcrypt($request->password);
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']);
         }
-    
-        $karyawan->role = $request->role;
-        $karyawan->save();
-    
-       
-        return redirect()->route('admin.tampil')->with('success', 'Data karyawan berhasil diperbarui!');
-    }
-    
 
+        $karyawan->update($validated);
 
-
-
-
-    public function delete($id){
-        $project = Karyawan::find($id);
-        $project->delete();
-        return redirect()->route('admin.tampil'); 
+        return redirect()->route('admin.tampil')->with('success', 'Data karyawan berhasil diperbarui');
     }
 
-
+    public function delete($id) // sebelumnya delete() sebagai destroy()
+    {
+        Karyawan::destroy($id);
+        return redirect()->route('admin.tampil')->with('success', 'Data karyawan berhasil dihapus');
+    }
 }
