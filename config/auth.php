@@ -62,7 +62,7 @@ return [
     'providers' => [
         'karyawan' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Karyawan::class),
+            'model' => App\Models\Karyawan::class,
         ],
 
         // 'users' => [

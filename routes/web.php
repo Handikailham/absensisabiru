@@ -49,6 +49,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
     Route::put('/admin/update/{id}', [KaryawanController::class, 'update'])->name('admin.update');
     Route::post('/admin/delete/{id}', [KaryawanController::class, 'delete'])->name('admin.delete');
 
+
     // Route untuk CRUD absensi (hanya admin yang bisa mengakses)
     Route::prefix('/admin/absensi')->group(function () {
         Route::get('/', [DataAbsenController::class, 'index'])->name('absen.admin.index');
@@ -114,8 +115,7 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::get('/{id}/edit', [SubtesController::class, 'edit'])->name('subtes.edit');
         Route::put('/{id}', [SubtesController::class, 'update'])->name('subtes.update');
         Route::delete('/{id}', [SubtesController::class, 'destroy'])->name('subtes.destroy');
-    });
-    
+    });    
     
     
 });
@@ -127,6 +127,10 @@ Route::middleware(['auth', CheckRole::class . ':karyawan'])->group(function () {
     Route::post('/absen/pulang', [AbsenController::class, 'absenPulang'])->name('absen.pulang');
     Route::get('/absen/izin', [AbsenController::class, 'formIzin'])->name('absen.form');
     Route::post('/absen/izin', [AbsenController::class, 'izin'])->name('absen.izin');
+
+    // routes edit profile
+    Route::get('/users', [KaryawanController::class, 'editProfile'])->name('karyawan.edit.profile');
+    Route::post('/users', [KaryawanController::class, 'updateProfile'])->name('karyawan.update.profile');
     
     Route::get('/pelatihan', [PelatihanKaryawanController::class, 'index'])->name('pelatihankaryawan.index');
     Route::get('/pelatihan/requested', [PelatihanKaryawanController::class, 'requested'])->name('pelatihankaryawan.requested');
