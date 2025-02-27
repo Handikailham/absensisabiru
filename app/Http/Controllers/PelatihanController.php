@@ -39,34 +39,48 @@ class PelatihanController extends Controller
 
     // Menyimpan data pelatihan baru
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama_pelatihan'      => 'required|string|max:255',
-            'tanggal_pendaftaran' => 'required|date',
-            'tanggal_pelatihan'   => 'required|date',
-            'waktu_mulai'         => 'required|date_format:H:i:s',
-            'waktu_akhir'         => 'required|date_format:H:i:s',
-            'alamat'              => 'required|string|max:255',
-            'deskripsi'           => 'required|string',
-            'posisi_ids'          => 'required|array'
-        ]);
+{
+    $request->validate([
+        'nama_pelatihan'      => 'required|string|max:255',
+        'tanggal_pendaftaran' => 'required|date',
+        'tanggal_pelatihan'   => 'required|date',
+        'waktu_mulai'         => 'required|date_format:H:i:s',
+        'waktu_akhir'         => 'required|date_format:H:i:s',
+        'alamat'              => 'required|string|max:255',
+        'deskripsi'           => 'required|string',
+        'posisi_ids'          => 'required|array'
+    ]);
 
-        // Simpan data pelatihan
-        $pelatihan = Pelatihan::create([
-            'nama_pelatihan'      => $request->nama_pelatihan,
-            'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
-            'tanggal_pelatihan'   => $request->tanggal_pelatihan,
-            'waktu_mulai'         => $request->waktu_mulai,
-            'waktu_akhir'         => $request->waktu_akhir,
-            'alamat'              => $request->alamat,
-            'deskripsi'           => $request->deskripsi,
-        ]);
+    // Simpan data pelatihan
+    $pelatihan = Pelatihan::create([
+        'nama_pelatihan'      => $request->nama_pelatihan,
+        'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
+        'tanggal_pelatihan'   => $request->tanggal_pelatihan,
+        'waktu_mulai'         => $request->waktu_mulai,
+        'waktu_akhir'         => $request->waktu_akhir,
+        'alamat'              => $request->alamat,
+        'deskripsi'           => $request->deskripsi,
+    ]);
 
-        // Simpan relasi many-to-many ke posisi melalui pivot table
-        $pelatihan->posisis()->attach($request->posisi_ids);
+    // Simpan relasi many-to-many ke posisi melalui pivot table
+    $pelatihan->posisis()->attach($request->posisi_ids);
 
-        return redirect()->route('pelatihan.index')->with('success', 'Pelatihan berhasil disimpan.');
+    // Ambil email karyawan yang id_posisinya sesuai dengan posisi yang dihubungkan pada pelatihan
+    $emails = \App\Models\Karyawan::whereIn('id_posisi', $request->posisi_ids)
+                                  ->pluck('email')
+                                  ->toArray();
+
+    // Kirim email notifikasi hanya jika ada karyawan yang cocok
+    if (!empty($emails)) {
+        \Illuminate\Support\Facades\Mail::to($emails)
+            ->queue(new \App\Mail\PelatihanBaruMail($pelatihan));
     }
+
+    return redirect()->route('pelatihan.index')
+                     ->with('success', 'Pelatihan berhasil disimpan dan notifikasi telah dikirim.');
+}
+
+
 
     // Menampilkan detail pelatihan
     public function show($id)

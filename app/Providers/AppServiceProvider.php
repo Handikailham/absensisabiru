@@ -21,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         setlocale(LC_TIME, 'id_ID.UTF-8');
-    Carbon::setLocale('id');
+        Carbon::setLocale('id');
+
+        // Mendaftarkan observer untuk model Pelatihan
+        
     }
 }
