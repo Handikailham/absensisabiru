@@ -18,8 +18,8 @@
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-6 py-10">
     <header class="text-center mb-10">
-      <h1 class="text-4xl font-bold text-blue-700">Pelatihan Terdahulu</h1>
-      <p class="mt-2 text-gray-600">Lihat status pelatihan yang telah Anda ajukan.</p>
+      <h1 class="text-4xl font-bold text-blue-700">Pelatihan Terbaru</h1>
+      <p class="mt-2 text-gray-600">Pilih pelatihan yang ingin anda ikuti</p>
     </header>
     
     @if($pelatihan->isNotEmpty())
@@ -76,7 +76,7 @@
       @endforeach
     </div>
     @else
-    <p class="text-center text-gray-600">Anda belum mengajukan pelatihan apapun.</p>
+    <p class="text-center text-gray-600">Belum ada pelatihan terbaru</p>
     @endif
   </div>
 

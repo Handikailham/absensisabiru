@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pelatihan Terdahulu</title>
+  <title>Pelatihan Saya</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -18,8 +18,8 @@
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-6 py-10">
     <header class="text-center mb-10">
-      <h1 class="text-4xl font-bold text-blue-700">Pelatihan Terdahulu</h1>
-      <p class="mt-2 text-gray-600">Lihat status pelatihan yang telah Anda ajukan.</p>
+      <h1 class="text-4xl font-bold text-blue-700">Pelatihan Saya</h1>
+      <p class="mt-2 text-gray-600">Lihat Pelatihan yang telah Anda ajukan.</p>
     </header>
     
     @if($pelatihan->isNotEmpty())
