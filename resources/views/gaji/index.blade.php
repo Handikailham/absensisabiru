@@ -13,8 +13,11 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
   <div class="flex">
- <!-- Panggil Sidebar -->
- @include('partials.sidebaradmin')
+    <!-- Panggil Sidebar dengan fixed width agar tidak mengecil -->
+    <div class="w-64 flex-shrink-0">
+      @include('partials.sidebaradmin')
+    </div>
+
     <!-- Main Content -->
     <main class="flex-1 p-8">
       <!-- Baris judul dan tombol tambah data -->

@@ -13,20 +13,22 @@
 <body class="bg-gray-100 py-10">
   <h2 class="text-3xl font-bold text-center text-blue-500 mb-6">Form Tambah Subtes</h2>
   
-  <div class="max-w-3xl mx-auto bg-white p-6 rounded-md shadow-md">
+  <div class="max-w-lg mx-auto bg-white p-6 rounded-md shadow-md">
     <!-- Alert Sukses -->
     @if (session('success'))
-      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+      <div class="mb-4 p-3 bg-green-100 text-green-600 rounded">
         {{ session('success') }}
       </div>
     @endif
 
     <!-- Alert Error -->
     @if ($errors->any())
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        @foreach ($errors->all() as $error)
-          <p>{{ $error }}</p>
-        @endforeach
+      <div class="mb-4 p-3 bg-red-100 text-red-600 rounded">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
     @endif
 

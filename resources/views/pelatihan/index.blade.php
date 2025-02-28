@@ -15,8 +15,10 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
   <div class="flex">
-    <!-- Panggil Sidebar -->
-    @include('partials.sidebaradmin')
+    <!-- Panggil Sidebar dengan fixed width agar tidak berubah-ubah -->
+    <div class="w-64 flex-shrink-0">
+      @include('partials.sidebaradmin')
+    </div>
     
     <!-- Main Content -->
     <main class="flex-1 p-8">
@@ -62,14 +64,20 @@
               <td class="px-6 py-4">{{ $data->deskripsi }}</td>
               <td class="px-6 py-4">
                 <div class="flex justify-center space-x-2">
-                  <a href="{{ route('pelatihan.edit', $data->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">
-                    Edit
+                  <!-- Tombol Edit dengan ikon pensil -->
+                  <a href="{{ route('pelatihan.edit', $data->id) }}" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 3.5a2.121 2.121 0 113 3L7 21H4v-3L16 3.5z" />
+                    </svg>
                   </a>
+                  <!-- Tombol Hapus dengan ikon tempat sampah -->
                   <form action="{{ route('pelatihan.delete', $data->id) }}" method="POST" class="inline-block">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 shadow-md">
-                      Hapus
+                    <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 shadow-md" onclick="return confirm('Apakah Anda yakin ingin menghapus pelatihan ini?')">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
+                      </svg>
                     </button>
                   </form>
                 </div>
