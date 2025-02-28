@@ -9,6 +9,7 @@ use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PosisiController;
 use App\Http\Controllers\SubtesController;
+use App\Http\Controllers\HasilTesController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsenController;
 use App\Http\Controllers\PelatihanController;
@@ -116,6 +117,16 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::put('/{id}', [SubtesController::class, 'update'])->name('subtes.update');
         Route::delete('/{id}', [SubtesController::class, 'destroy'])->name('subtes.destroy');
     });    
+    
+    Route::prefix('admin/hasiltes')->group(function(){
+        Route::get('/', [HasilTesController::class, 'index'])->name('hasiltes.index');
+        Route::get('/create', [HasilTesController::class, 'create'])->name('hasiltes.create');
+        Route::post('/store', [HasilTesController::class, 'store'])->name('hasiltes.store');
+        Route::get('/{id}', [HasilTesController::class, 'show'])->name('hasiltes.show');
+        Route::get('/{id}/edit', [HasilTesController::class, 'edit'])->name('hasiltes.edit');
+        Route::put('/{id}', [HasilTesController::class, 'update'])->name('hasiltes.update');
+        Route::delete('/{id}', [HasilTesController::class, 'destroy'])->name('hasiltes.destroy');
+    });
     
     
 });

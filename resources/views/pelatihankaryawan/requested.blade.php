@@ -36,7 +36,7 @@
     <!-- Pelatihan Belum Selesai -->
     @if($pelatihanBelumSelesai->isNotEmpty())
       <section class="mb-10">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Pelatihan Belum Selesai</h2>
+        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">Pelatihan Belum Selesai</h2>
         <div class="space-y-8">
           @foreach ($pelatihanBelumSelesai as $data)
             <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
@@ -91,7 +91,8 @@
     <!-- Pelatihan Selesai -->
     @if($pelatihanSelesai->isNotEmpty())
       <section class="mb-10">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Pelatihan Selesai</h2>
+        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">Pelatihan Selesai</h2>
+
         <div class="space-y-8">
           @foreach ($pelatihanSelesai as $data)
             <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">

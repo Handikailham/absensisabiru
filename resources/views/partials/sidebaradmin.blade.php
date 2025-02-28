@@ -74,6 +74,13 @@
             </li>
           </ul>
         </li>
+        <!-- Data Hasil Tes -->
+        <li class="mb-4">
+          <a href="{{ route('hasiltes.index') }}"
+             class="block px-4 py-2 rounded transition-colors duration-200 {{ request()->routeIs('hasiltes.index') ? 'font-bold bg-blue-700' : 'hover:bg-blue-700' }} text-white">
+            Hasil Tes
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
