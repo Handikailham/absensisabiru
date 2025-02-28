@@ -15,6 +15,7 @@ class TesController extends Controller
     // Menampilkan halaman tes (sub-tes) untuk pelatihan tertentu
     public function mulai($pelatihan_id, $sub_tes_index = null)
     {
+        session()->put('subtes_start_time', Carbon::now());
         $karyawan = Auth::user();
 
         // Periksa apakah sudah ada record progres untuk pelatihan ini

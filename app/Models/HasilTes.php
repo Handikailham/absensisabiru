@@ -19,6 +19,7 @@ class HasilTes extends Model
         'jumlah_salah',
         'status',
         'tes_selesai',
+        'durasi_tes',
     ];
 
     public function pelatihan()
