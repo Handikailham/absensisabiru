@@ -36,11 +36,13 @@
     <!-- Pelatihan Belum Selesai -->
     @if($pelatihanBelumSelesai->isNotEmpty())
       <section class="mb-10">
-        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">Pelatihan Belum Selesai</h2>
+        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">
+          Pelatihan Belum Selesai
+        </h2>
         <div class="space-y-8">
           @foreach ($pelatihanBelumSelesai as $data)
             <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
-              <!-- Background Overlay dengan opasitas dikurangi (agar teks lebih kontras) -->
+              <!-- Background Overlay dengan opasitas dikurangi -->
               <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-20"></div>
               <!-- Icon di pojok kanan -->
               <div class="absolute top-5 right-5 z-10">
@@ -68,18 +70,22 @@
                 @elseif($data->request_status == 'declined')
                   <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
                 @elseif($data->request_status == 'accepted')
-                  <div id="countdown-{{ $data->id }}" data-target="{{ $data->target_time }}" class="text-lg font-semibold text-green-600">
-                    Loading countdown...
-                  </div>
-                  <div id="start-button-{{ $data->id }}" class="hidden">
-                    <a href="{{ route('pelatihan.mulai', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
-                      @if($data->tes_started)
-                        Lanjutkan Tes
-                      @else
-                        Mulai Tes
-                      @endif
-                    </a>
-                  </div>
+                  @if(!$data->tes_started && \Carbon\Carbon::now()->greaterThan(\Carbon\Carbon::parse($data->tanggal_pelatihan . ' ' . $data->waktu_akhir)))
+                    <span class="px-4 py-2 text-lg font-semibold text-red-600">Anda melewatkan pelatihan ini</span>
+                  @else
+                    <div id="countdown-{{ $data->id }}" data-target="{{ $data->target_time }}" class="text-lg font-semibold text-green-600">
+                      Loading countdown...
+                    </div>
+                    <div id="start-button-{{ $data->id }}" class="hidden">
+                      <a href="{{ route('pelatihan.mulai', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
+                        @if($data->tes_started)
+                          Lanjutkan Tes
+                        @else
+                          Mulai Tes
+                        @endif
+                      </a>
+                    </div>
+                  @endif
                 @endif
               </div>
             </div>
@@ -91,8 +97,9 @@
     <!-- Pelatihan Selesai -->
     @if($pelatihanSelesai->isNotEmpty())
       <section class="mb-10">
-        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">Pelatihan Selesai</h2>
-
+        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">
+          Pelatihan Selesai
+        </h2>
         <div class="space-y-8">
           @foreach ($pelatihanSelesai as $data)
             <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">

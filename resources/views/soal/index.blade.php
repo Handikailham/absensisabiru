@@ -32,12 +32,13 @@
           <thead>
             <tr class="bg-gray-200 text-gray-700">
               <th class="border px-6 py-3">No</th>
+              <th class="border px-6 py-3">Pelatihan</th>
+              <th class="border px-6 py-3">Sub Tes</th>
               <th class="border px-6 py-3">Pertanyaan</th>
               <th class="border px-6 py-3">Pilihan A</th>
               <th class="border px-6 py-3">Pilihan B</th>
               <th class="border px-6 py-3">Pilihan C</th>
               <th class="border px-6 py-3">Pilihan D</th>
-              <th class="border px-6 py-3">Sub Tes</th>
               <th class="border px-6 py-3">Jawaban Benar</th>
               <th class="border px-6 py-3">Aksi</th>
             </tr>
@@ -46,12 +47,13 @@
             @foreach($soals as $index => $soal)
               <tr class="hover:bg-gray-100 text-center border-b">
                 <td class="px-6 py-4">{{ $index + 1 }}</td>
+                <td class="px-6 py-4">{{ optional($soal->subtes->pelatihan)->nama_pelatihan ?? 'N/A' }}</td>
+                <td class="px-6 py-4">{{ optional($soal->subtes)->nama_subtes ?? 'N/A' }}</td>
                 <td class="px-6 py-4">{{ $soal->pertanyaan }}</td>
                 <td class="px-6 py-4">{{ $soal->pilihan_a }}</td>
                 <td class="px-6 py-4">{{ $soal->pilihan_b }}</td>
                 <td class="px-6 py-4">{{ $soal->pilihan_c }}</td>
                 <td class="px-6 py-4">{{ $soal->pilihan_d }}</td>
-                <td class="px-6 py-4">{{ optional($soal->subtes)->nama_subtes ?? 'N/A' }}</td>
                 <td class="px-6 py-4">{{ strtoupper($soal->jawaban_benar) }}</td>
                 <td class="px-6 py-4">
                   <div class="flex justify-center space-x-2">

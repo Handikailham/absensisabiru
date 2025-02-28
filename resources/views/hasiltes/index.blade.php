@@ -36,6 +36,7 @@
               <th class="border px-6 py-3">Salah</th>
               <th class="border px-6 py-3">Status</th>
               <th class="border px-6 py-3">Tes Selesai</th>
+              <th class="border px-6 py-3">Durasi Pengerjaan</th>
               <th class="border px-6 py-3">Aksi</th>
             </tr>
           </thead>
@@ -50,6 +51,7 @@
                 <td class="px-6 py-4">{{ $ht->jumlah_salah }}</td>
                 <td class="px-6 py-4">{{ ucfirst($ht->status) }}</td>
                 <td class="px-6 py-4">{{ $ht->tes_selesai ? 'Ya' : 'Tidak' }}</td>
+                <td class="px-6 py-4">{{ $ht->durasi_tes }}</td>
                 <td class="px-6 py-4">
                   <div class="flex justify-center space-x-2">
                     <form action="{{ route('hasiltes.destroy', $ht->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Anda yakin ingin menghapus hasil tes ini?')">

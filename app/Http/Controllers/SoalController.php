@@ -11,7 +11,7 @@ class SoalController extends Controller
     // Menampilkan daftar soal
     public function index()
     {
-        $soals = Soal::with('subtes')->get();
+        $soals = Soal::with('subtes.pelatihan')->get();
         return view('soal.index', compact('soals'));
     }
 

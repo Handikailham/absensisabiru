@@ -40,7 +40,7 @@
         <table class="w-full table-auto border-collapse">
           <thead>
             <tr class="bg-gray-200 text-gray-700">
-              <th class="border px-6 py-3">ID</th>
+              <th class="border px-6 py-3">NO</th>
               <th class="border px-6 py-3">Nama Posisi</th>
               <th class="border px-6 py-3">Gaji Pokok</th>
               <th class="border px-6 py-3">Tunjangan</th>
@@ -48,9 +48,9 @@
             </tr>
           </thead>
           <tbody class="bg-white">
-            @foreach ($posisi as $data)
+            @foreach ($posisi as $index => $data)
               <tr class="hover:bg-gray-100 text-center border-b">
-                <td class="px-6 py-4">{{ $data->id }}</td>
+                <td class="px-6 py-4">{{ $index + 1 }}</td>
                 <td class="px-6 py-4">{{ $data->nama_posisi }}</td>
                 <td class="px-6 py-4">Rp {{ number_format($data->gaji_pokok, 2, ',', '.') }}</td>
                 <td class="px-6 py-4">Rp {{ number_format($data->tunjangan, 2, ',', '.') }}</td>
