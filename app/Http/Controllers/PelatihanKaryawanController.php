@@ -70,8 +70,18 @@ class PelatihanKaryawanController extends Controller
         }
     }
 
-    return view('pelatihankaryawan.requested', compact('pelatihan'));
+    // Pisahkan pelatihan yang sudah selesai dan belum selesai
+    $pelatihanSelesai = $pelatihan->filter(function ($p) {
+        return $p->tes_selesai;
+    });
+
+    $pelatihanBelumSelesai = $pelatihan->filter(function ($p) {
+        return !$p->tes_selesai;
+    });
+
+    return view('pelatihankaryawan.requested', compact('pelatihanSelesai', 'pelatihanBelumSelesai'));
 }
+
 
 
 

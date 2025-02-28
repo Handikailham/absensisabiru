@@ -128,8 +128,8 @@
               </p>
             </div>
             <div>
-              <p class="text-sm text-gray-500">Durasi Tes</p>
-              <p class="text-lg font-semibold">60 Menit</p>
+              <p class="text-sm text-gray-500">Waktu Pengerjaan Tes</p>
+              <p class="text-lg font-semibold pl-9">{{ $hasil->durasi_tes }}</p>
             </div>
           </div>
           <div class="mt-4 text-center">
