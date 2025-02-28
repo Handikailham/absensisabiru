@@ -13,20 +13,22 @@
 <body class="bg-gray-100 py-10">
   <h2 class="text-3xl font-bold text-center text-blue-500 mb-6">Edit Subtes</h2>
   
-  <div class="max-w-3xl mx-auto bg-white p-6 rounded-md shadow-md">
+  <div class="max-w-lg mx-auto bg-white p-6 rounded-md shadow-md">
     <!-- Notifikasi Sukses -->
     @if(session('success'))
-      <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+      <div class="mb-4 p-3 bg-green-100 text-green-600 rounded">
         {{ session('success') }}
       </div>
     @endif
 
     <!-- Alert Error -->
     @if($errors->any())
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        @foreach($errors->all() as $error)
-          <p>{{ $error }}</p>
-        @endforeach
+      <div class="mb-4 p-3 bg-red-100 text-red-600 rounded">
+        <ul>
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
     @endif
 
@@ -70,11 +72,11 @@
       </div>
 
       <!-- Tombol Aksi -->
-      <div class="flex justify-between space-x-4">
-        <a href="{{ route('subtes.index') }}" class="w-1/2 inline-block bg-blue-500 text-white text-center py-2 px-4 rounded-md hover:bg-blue-600">
+      <div class="flex justify-between">
+        <a href="{{ route('subtes.index') }}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
           Kembali
         </a>
-        <button type="submit" class="w-1/2 inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">
           Update Subtes
         </button>
       </div>

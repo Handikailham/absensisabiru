@@ -9,14 +9,22 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
+    /* Background dengan gradient dari blue-500 ke blue-700 dan wave SVG sebagai background */
+    .wave-bg {
+      background: linear-gradient(to bottom, #3B82F6, #1D4ED8);
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path transform="translate(0,320) scale(1,-1)" fill="%231D4ED8" d="M0,256L40,256C80,256,160,256,240,256C320,256,400,256,480,224C560,192,640,128,720,128C800,128,880,192,960,224C1040,256,1120,256,1200,234.7C1280,213,1360,171,1400,149.3L1440,128L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"></path></svg>');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <!--navbar-->
+<body class="wave-bg min-h-screen relative">
+  <!-- Navbar -->
   @include('partials.navbar')  
   
-  <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-6 py-10">
+  <!-- Main Content Container (padding bawah ditambahkan agar isi tidak tertutup) -->
+  <div class="max-w-7xl mx-auto px-6 py-10 pb-40">
     <header class="text-center mb-10">
       <h1 class="text-4xl font-bold text-blue-700">Pelatihan Terbaru</h1>
       <p class="mt-2 text-gray-600">Pilih pelatihan yang ingin anda ikuti</p>
@@ -79,7 +87,9 @@
     <p class="text-center text-gray-600">Belum ada pelatihan terbaru</p>
     @endif
   </div>
-
+  
+  <!-- Tidak ada elemen wave terpisah, hanya background pada body yang tampil di belakang -->
+  
   <script>
     // Fungsi update countdown untuk setiap pelatihan yang diterima
     function updateCountdown() {

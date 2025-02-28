@@ -8,13 +8,25 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+     body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Wave background dengan container gradient dari blue-500 ke blue-700,
+       dan wave berwarna biru solid (blue-700) */
+    .wave-bg {
+      background: linear-gradient(to bottom, #3B82F6, #1D4ED8);
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path transform="translate(0,320) scale(1,-1)" fill="%231D4ED8" d="M0,256L40,256C80,256,160,256,240,256C320,256,400,256,480,224C560,192,640,128,720,128C800,128,880,192,960,224C1040,256,1120,256,1200,234.7C1280,213,1360,171,1400,149.3L1440,128L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z"></path></svg>');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
   </style>
 </head>
-<body class="bg-gray-50 h-screen flex flex-col overflow-hidden">
-  <!--navbar-->
-  @include('partials.navbar')  
-  <!-- Toast Notification Simple (pojok kanan atas) -->
+<body class="wave-bg min-h-screen flex flex-col overflow-hidden">
+  <!-- Navbar -->
+  @include('partials.navbar')
+  
+  <!-- Toast Notification (pojok kanan atas) -->
   @if(session('success'))
     <div class="fixed top-4 right-4 z-50" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)">
       <div class="bg-green-200 text-green-800 text-sm px-3 py-2 rounded shadow">
@@ -125,7 +137,7 @@
         return false;
       }
       return true;
-    }
+    }Q
   </script>
 </body>
 </html>

@@ -15,8 +15,8 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
   <div class="flex">
-<!-- Panggil Sidebar -->
-@include('partials.sidebaradmin')
+    <!-- Panggil Sidebar -->
+    @include('partials.sidebaradmin')
     <!-- Main Content -->
     <main class="flex-1 p-8">
       <!-- Judul dan Tombol Tambah Data sejajar -->
@@ -57,19 +57,18 @@
               <td class="px-6 py-4 text-blue-600 font-semibold">{{ ucfirst($data->role) }}</td>
               <td class="px-6 py-4">
                 <div class="flex justify-center space-x-2">
-                  <!-- Tombol Edit dengan ikon pensil -->
-                  <a href="{{ route('admin.edit', $data->id) }}" class="text-blue-500 hover:text-blue-600 transition-colors duration-200" title="Edit">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
-                      <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4.586a1 1 0 01.707.293l7 7a1 1 0 01.293.707V16a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm2 0v10h10v-5.414l-7-7H4z" clip-rule="evenodd"/>
+                  <!-- Tombol Edit dengan ikon pensil dalam kotak -->
+                  <a href="{{ route('admin.edit', $data->id) }}" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 shadow-md transition-colors duration-200" title="Edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16 3.5a2.121 2.121 0 113 3L7 21H4v-3L16 3.5z" />
                     </svg>
                   </a>
-                  <!-- Tombol Hapus dengan ikon trash -->
+                  <!-- Tombol Hapus dengan ikon trash dalam kotak -->
                   <form action="{{ route('admin.delete', $data->id) }}" method="POST" class="inline-block">
                     @csrf
-                    <button type="submit" class="text-blue-500 hover:text-blue-600 transition-colors duration-200" title="Hapus">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2h1v9a2 2 0 002 2h6a2 2 0 002-2V6h1a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd"/>
+                    <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 shadow-md transition-colors duration-200" title="Hapus" onclick="return confirm('Apakah Anda yakin?')">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
                       </svg>
                     </button>
                   </form>
