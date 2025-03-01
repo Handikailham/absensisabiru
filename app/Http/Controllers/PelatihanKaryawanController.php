@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\HasilTes;
 use App\Models\Karyawan;
 use App\Models\Pelatihan;
+use App\Models\PelatihanProgress; // pastikan model ini ada
 use Illuminate\Http\Request;
 use App\Models\PelatihanRequest;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,13 @@ class PelatihanKaryawanController extends Controller
     $pelatihan = Pelatihan::whereIn('id', $requestPelatihan->pluck('pelatihan_id'))->get();
 
     foreach ($pelatihan as $p) {
+        // Ambil record progress untuk pelatihan ini
+        $progress = \App\Models\PelatihanProgress::where('pelatihan_id', $p->id)
+                    ->where('karyawan_id', $karyawan->id)
+                    ->first();
+        // Simpan nilai sub_tes_index ke properti baru, default 0 jika tidak ada progress
+        $p->sub_tes_index = $progress ? $progress->sub_tes_index : 0;
+
         // Ambil record HasilTes untuk pelatihan ini
         $hasil = HasilTes::where('pelatihan_id', $p->id)
                     ->where('karyawan_id', $karyawan->id)
@@ -83,8 +91,6 @@ class PelatihanKaryawanController extends Controller
 }
 
 
-
-
     public function requestJoin($id)
     {
         $karyawan = Auth::user(); // Ambil data karyawan yang login
@@ -106,5 +112,22 @@ class PelatihanKaryawanController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Permintaan pelatihan telah dikirim.');
+    }
+
+    // Method untuk menghapus record progress pelatihan (dipanggil via AJAX)
+    public function deleteProgress($pelatihanId)
+    {
+        $karyawan = Auth::user();
+
+        $progress = PelatihanProgress::where('pelatihan_id', $pelatihanId)
+                    ->where('karyawan_id', $karyawan->id)
+                    ->first();
+
+        if ($progress) {
+            $progress->delete();
+            return response()->json(['success' => true, 'message' => 'Progress berhasil dihapus.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Progress tidak ditemukan.'], 404);
+        }
     }
 }

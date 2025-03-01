@@ -159,5 +159,11 @@ Route::get('/pelatihan/{pelatihan_id}/hasil', [TesController::class, 'hasil'])
     Route::get('/absen/izin/keterangan/{id}', [AbsenController::class, 'keteranganIzin'])->name('absen.keterangan');
     Route::get('/absen/izin/download/{id}', [AbsenController::class, 'downloadIzinPDF'])->name('absen.generatePDF');
 
+    Route::post('/pelatihan/progress/delete/{pelatihanId}', [PelatihanKaryawanController::class, 'deleteProgress'])
+        ->name('pelatihan.progress.delete');
+
+        Route::post('/pelatihan/tes/finish/{pelatihanId}', [TesController::class, 'finishTest'])
+       ->name('pelatihan.tes.finish');
+
 
 });

@@ -54,7 +54,7 @@
                     d="M7 7h10M7 11h10M7 15h10M5 6h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" />
             </svg>
             <p class="text-sm text-gray-500">Total Soal</p>
-            <p class="text-xl font-semibold text-gray-800">{{ $hasil->total_soal }}</p>
+            <p class="text-xl font-semibold text-gray-800">{{ $total_soal }}</p>
           </div>
 
           <!-- Jumlah Benar -->
@@ -80,22 +80,15 @@
 
         <!-- Skor & Progress Bar -->
         @php
-          $skor = ($hasil->total_soal > 0)
-                  ? ($hasil->jumlah_benar / $hasil->total_soal) * 100
-                  : 0;
-          $warnaBar = $skor >= 80
-                      ? 'bg-green-400'
-                      : ($skor >= 50
-                         ? 'bg-yellow-400'
-                         : 'bg-red-400');
+          $skor = ($total_soal > 0) ? ($hasil->jumlah_benar / $total_soal) * 100 : 0;
+          $warnaBar = $skor >= 80 ? 'bg-green-400' : ($skor >= 50 ? 'bg-yellow-400' : 'bg-red-400');
         @endphp
         <div class="mb-6">
           <p class="text-center text-xl font-semibold text-gray-800 mb-2">
             Skor: {{ number_format($skor, 2) }}%
           </p>
           <div class="w-full bg-gray-200 rounded-full h-4">
-            <div class="{{ $warnaBar }} h-4 rounded-full"
-                 style="width: {{ number_format($skor, 2) }}%"></div>
+            <div class="{{ $warnaBar }} h-4 rounded-full" style="width: {{ number_format($skor, 2) }}%"></div>
           </div>
         </div>
 
