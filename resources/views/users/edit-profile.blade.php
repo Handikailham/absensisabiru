@@ -60,7 +60,7 @@
         <label class="block text-sm font-medium text-gray-700" for="profile_image">Foto Profil</label>
         @if($karyawan->profile_image)
           <div class="mb-2">
-            <img src="{{ asset('storage/profile/' . $karyawan->profile_image) }}" alt="Foto Profil" class="h-20 w-20 rounded-full object-cover">
+            <img src="{{ asset('profile/' . $karyawan->profile_image) }}" alt="Foto Profil" class="h-20 w-20 rounded-full object-cover">
           </div>
         @endif
         <input type="file" id="profile_image" name="profile_image"

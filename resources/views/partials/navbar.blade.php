@@ -31,11 +31,12 @@
       <!-- Tampilkan foto profil sebagai link ke halaman edit profil -->
       <a href="{{ route('karyawan.edit.profile') }}">
         @if(Auth::user()->profile_image)
-          <img src="{{ asset('storage/profile/' . Auth::user()->profile_image) }}" alt="Foto Profil" class="w-10 h-10 rounded-full object-cover">
+          <img src="{{ asset('profile/' . Auth::user()->profile_image) }}" alt="Foto Profil" class="w-10 h-10 rounded-full object-cover">
         @else
           <img src="{{ asset('image/default-avatar.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full object-cover">
         @endif
       </a>
+      
       <form action="{{ route('logout') }}" method="POST">
         @csrf
         <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300">

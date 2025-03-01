@@ -87,40 +87,44 @@ class KaryawanController extends Controller
 
     // Memproses update profil (termasuk foto profil)
     public function updateProfile(Request $request)
-    {
-        $validated = $request->validate([
-            'nama'          => 'required|string|max:255',
-            'email'         => 'required|email|max:255|unique:karyawan,email,' . Auth::id(),
-            'password'      => 'nullable|min:6|confirmed',
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
-    
-        // Jika tidak mengisi password, hapus key 'password' dari data yang akan diupdate
-        if (!$request->filled('password')) {
-            unset($validated['password']);
-        } else {
-            $validated['password'] = Hash::make($request->password);
-        }
-    
-        // Jika ada file gambar, proses upload dan tambahkan ke data validasi
-        if ($request->hasFile('profile_image')) {
-            $karyawan = Auth::user();
-            if ($karyawan->profile_image && file_exists(storage_path('app/public/profile/' . $karyawan->profile_image))) {
-                unlink(storage_path('app/public/profile/' . $karyawan->profile_image));
-            }
-            $file = $request->file('profile_image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            // Gunakan disk 'public' secara eksplisit agar file tersimpan di storage/app/public/profile
-            $file->storeAs('profile', $filename, 'public');
-            $validated['profile_image'] = $filename;
-        }
-    
-        /** @var \App\Models\Karyawan $karyawan */
-        $karyawan = Auth::user();
-        $karyawan->update($validated);
-    
-        return redirect()->route('absen.index')->with('success', 'Profil berhasil diperbarui.');
+{
+    $validated = $request->validate([
+        'nama'          => 'required|string|max:255',
+        'email'         => 'required|email|max:255|unique:karyawan,email,' . Auth::id(),
+        'password'      => 'nullable|min:6|confirmed',
+        'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
+
+    // Jika tidak mengisi password, hapus key 'password' dari data yang akan diupdate
+    if (!$request->filled('password')) {
+        unset($validated['password']);
+    } else {
+        $validated['password'] = Hash::make($request->password);
     }
+
+    // Proses upload file ke folder public/profile
+    if ($request->hasFile('profile_image')) {
+        $karyawan = Auth::user();
+
+        // Hapus file lama jika ada
+        if ($karyawan->profile_image && file_exists(public_path('profile/' . $karyawan->profile_image))) {
+            unlink(public_path('profile/' . $karyawan->profile_image));
+        }
+
+        $file = $request->file('profile_image');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        // Pindahkan file ke folder public/profile
+        $file->move(public_path('profile'), $filename);
+        $validated['profile_image'] = $filename;
+    }
+
+    /** @var \App\Models\Karyawan $karyawan */
+    $karyawan = Auth::user();
+    $karyawan->update($validated);
+
+    return redirect()->route('absen.index')->with('success', 'Profil berhasil diperbarui.');
+}
+
     
 
 }

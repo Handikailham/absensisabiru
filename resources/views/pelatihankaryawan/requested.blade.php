@@ -37,93 +37,106 @@
 
     <!-- Pelatihan Belum Selesai -->
     @if($pelatihanBelumSelesai->isNotEmpty())
-      <section class="mb-10">
-        <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">
-          Pelatihan Belum Selesai
-        </h2>
-        <div class="space-y-8">
-          @foreach ($pelatihanBelumSelesai as $data)
-            @php
-              // Hitung waktu akhir dan waktu mulai sebagai objek Carbon
-              $timeEnd = \Carbon\Carbon::parse($data->tanggal_pelatihan . ' ' . $data->waktu_akhir);
-              $timeMulai = \Carbon\Carbon::parse($data->tanggal_pelatihan . ' ' . $data->waktu_mulai);
-              $now = \Carbon\Carbon::now();
-              // Jika tes sudah dimulai, target untuk countdown adalah waktu_akhir (sebagai timestamp ms)
-              // Jika belum dimulai, gunakan target_time (yang sudah diset dari controller) atau waktu_mulai
-              $targetTimestamp = $data->tes_started 
-                  ? $timeEnd->timestamp * 1000 
-                  : (isset($data->target_time) ? strtotime($data->target_time) * 1000 : $timeMulai->timestamp * 1000);
-            @endphp
+  <section class="mb-10">
+    <h2 class="text-2xl font-bold text-white bg-black bg-opacity-50 p-2 rounded">
+      Pelatihan Belum Selesai
+    </h2>
+    <div class="space-y-8">
+      @foreach ($pelatihanBelumSelesai as $data)
+        @php
+          // Hitung waktu akhir dan waktu mulai sebagai objek Carbon
+          $timeEnd = \Carbon\Carbon::parse($data->tanggal_pelatihan . ' ' . $data->waktu_akhir);
+          $timeMulai = \Carbon\Carbon::parse($data->tanggal_pelatihan . ' ' . $data->waktu_mulai);
+          $now = \Carbon\Carbon::now();
+          // Jika tes sudah dimulai, target untuk countdown adalah waktu_akhir (sebagai timestamp ms)
+          // Jika belum dimulai, gunakan target_time (yang sudah diset dari controller) atau waktu_mulai
+          $targetTimestamp = $data->tes_started 
+              ? $timeEnd->timestamp * 1000 
+              : (isset($data->target_time) ? strtotime($data->target_time) * 1000 : $timeMulai->timestamp * 1000);
+        @endphp
 
-            <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
-              <!-- Background Overlay -->
-              <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-20"></div>
-              <!-- Icon di pojok kanan -->
-              <div class="absolute top-5 right-5 z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a2 2 0 011.414.586l2.414 2.414A2 2 0 0117.414 6H19a2 2 0 012 2v10a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <div class="relative p-6">
-                <h3 class="text-2xl font-bold text-gray-800">{{ $data->nama_pelatihan }}</h3>
-                <p class="mt-2 text-gray-600 text-sm">
-                  <span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}
-                </p>
-                <p class="text-gray-600 text-sm">
-                  <span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}
-                </p>
-                <p class="mt-2 text-gray-600 text-sm">
-                  <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
-                </p>
-                <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
-              </div>
-              <div class="relative p-6 bg-gray-50 border-t border-gray-300">
-                @if($data->request_status == 'pending')
-                  <span class="px-4 py-2 text-lg font-semibold text-yellow-600">Menunggu Persetujuan</span>
-                @elseif($data->request_status == 'declined')
-                  <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
-                @elseif($data->request_status == 'accepted')
-                  @if($now->gte($timeEnd))
-                    @if(!$data->tes_started)
-                      <span class="px-4 py-2 text-lg font-semibold text-red-600">Anda melewatkan pelatihan ini</span>
-                      <script>
-                        deleteProgress({{ $data->id }});
-                      </script>
-                    @else
-                      <a id="final-button-{{ $data->id }}" href="{{ route('pelatihan.hasil', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
-                        Lihat Hasil
-                      </a>
-                      <script>
-                        finishTest({{ $data->id }});
-                        deleteProgress({{ $data->id }});
-                      </script>
-                    @endif
-                  @else
-                    @if($data->tes_started)
-                      <!-- Jika tes sudah dimulai dan waktu belum habis, langsung tampilkan tombol Lanjutkan Tes -->
-                      <a href="{{ route('pelatihan.mulai', [$data->id, $data->sub_tes_index]) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
-                        Lanjutkan Tes
-                      </a>
-                    @else
-                      <!-- Jika belum dimulai, tampilkan countdown -->
-                      <div id="countdown-{{ $data->id }}" data-target="{{ $targetTimestamp }}" data-pelatihan="{{ $data->id }}" class="text-lg font-semibold text-green-600">
-                        Loading countdown...
-                      </div>
-                      <div id="start-button-{{ $data->id }}" class="hidden">
-                        <a href="{{ route('pelatihan.mulai', [$data->id, 0]) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
-                          Mulai Tes
-                        </a>
-                      </div>
-                    @endif
-                  @endif
+        <div class="relative bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden transform hover:scale-105 transition duration-300">
+          <!-- Background Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-20"></div>
+          <!-- Icon di pojok kanan -->
+          <div class="absolute top-5 right-5 z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a2 2 0 011.414.586l2.414 2.414A2 2 0 0117.414 6H19a2 2 0 012 2v10a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="relative p-6">
+            <h3 class="text-2xl font-bold text-gray-800">{{ $data->nama_pelatihan }}</h3>
+            <p class="mt-2 text-gray-600 text-sm">
+              <span class="font-semibold">Pendaftaran:</span>
+              {{-- Gunakan isoFormat untuk menampilkan tanggal dengan nama bulan --}}
+              {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->isoFormat('D MMMM Y') }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              <span class="font-semibold">Pelatihan:</span>
+              {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->isoFormat('D MMMM Y') }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              <span class="font-semibold">Waktu Mulai:</span>
+              {{ \Carbon\Carbon::parse($data->waktu_awal)->format('H:i') }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              <span class="font-semibold">Waktu Akhir:</span>
+              {{ \Carbon\Carbon::parse($data->waktu_akhir)->format('H:i') }}
+            </p>
+            <p class="mt-2 text-gray-600 text-sm">
+              <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
+            </p>
+            <p class="mt-3 text-gray-700">{{ $data->deskripsi }}</p>
+            <p class="mt-4 text-sm text-red-500">*Harap masuk ke form sebelum waktu akhir</p>
+          </div>
+          <div class="relative p-6 bg-gray-50 border-t border-gray-300">
+            @if($data->request_status == 'pending')
+              <span class="px-4 py-2 text-lg font-semibold text-yellow-600">Menunggu Persetujuan</span>
+            @elseif($data->request_status == 'declined')
+              <span class="px-4 py-2 text-lg font-semibold text-red-600">Ditolak</span>
+            @elseif($data->request_status == 'accepted')
+              @if($now->gte($timeEnd))
+                @if(!$data->tes_started)
+                  <span class="px-4 py-2 text-lg font-semibold text-red-600">Anda melewatkan pelatihan ini</span>
+                  <script>
+                    deleteProgress({{ $data->id }});
+                  </script>
+                @else
+                  <a id="final-button-{{ $data->id }}" href="{{ route('pelatihan.hasil', $data->id) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
+                    Lihat Hasil
+                  </a>
+                  <script>
+                    finishTest({{ $data->id }});
+                    deleteProgress({{ $data->id }});
+                  </script>
                 @endif
-              </div>
-            </div>
-          @endforeach
+              @else
+                @if($data->tes_started)
+                  <!-- Jika tes sudah dimulai dan waktu belum habis, langsung tampilkan tombol Lanjutkan Tes -->
+                  <a href="{{ route('pelatihan.mulai', [$data->id, $data->sub_tes_index]) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
+                    Lanjutkan Tes
+                  </a>
+                @else
+                  <!-- Jika belum dimulai, tampilkan countdown -->
+                  <div id="countdown-{{ $data->id }}" data-target="{{ $targetTimestamp }}" data-pelatihan="{{ $data->id }}" class="text-lg font-semibold text-green-600">
+                    Loading countdown...
+                  </div>
+                  <div id="start-button-{{ $data->id }}" class="hidden">
+                    <a href="{{ route('pelatihan.mulai', [$data->id, 0]) }}" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-200 inline-block text-center">
+                      Mulai Tes
+                    </a>
+                  </div>
+                @endif
+              @endif
+            @endif
+          </div>
         </div>
-      </section>
-    @endif
+      @endforeach
+    </div>
+  </section>
+@endif
+
 
     <!-- Pelatihan Selesai -->
     @if($pelatihanSelesai->isNotEmpty())
@@ -146,10 +159,10 @@
               <div class="relative p-6">
                 <h3 class="text-2xl font-bold text-gray-800">{{ $data->nama_pelatihan }}</h3>
                 <p class="mt-2 text-gray-600 text-sm">
-                  <span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->format('d-m-Y') }}
+                  <span class="font-semibold">Pendaftaran:</span> {{ \Carbon\Carbon::parse($data->tanggal_pendaftaran)->isoFormat('D MMMM Y') }}
                 </p>
                 <p class="text-gray-600 text-sm">
-                  <span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->format('d-m-Y') }}
+                  <span class="font-semibold">Pelatihan:</span> {{ \Carbon\Carbon::parse($data->tanggal_pelatihan)->isoFormat('D MMMM Y') }}
                 </p>
                 <p class="mt-2 text-gray-600 text-sm">
                   <span class="font-semibold">Lokasi:</span> {{ $data->alamat }}
