@@ -24,7 +24,6 @@
     ],
     "public": true,
     "buildCommand": "vite build",
-    "installCommand": "echo 'Skipping composer install'",
     "outputDirectory": "public",
     "env": {
       "APP_ENV": "production",
