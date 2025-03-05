@@ -78,7 +78,7 @@
             </p>
             <p class="text-gray-600 text-sm">
               <span class="font-semibold">Waktu Mulai:</span>
-              {{ \Carbon\Carbon::parse($data->waktu_awal)->format('H:i') }}
+              {{ \Carbon\Carbon::parse($data->waktu_mulai)->format('H:i') }}
             </p>
             <p class="text-gray-600 text-sm">
               <span class="font-semibold">Waktu Akhir:</span>

@@ -56,10 +56,10 @@
     </div>
     <div class="content">
       <p><strong>Pelatihan:</strong> {{ $pelatihan->nama_pelatihan }}</p>
-      <p><strong>Tanggal Pendaftaran:</strong> {{ $pelatihan->tanggal_pendaftaran }}</p>
-      <p><strong>Tanggal Pelatihan:</strong> {{ $pelatihan->tanggal_pelatihan }}</p>
-      <p><strong>Waktu Mulai:</strong> {{ $pelatihan->waktu_mulai }}</p>
-      <p><strong>Waktu Akhir:</strong> {{ $pelatihan->waktu_akhir }}</p>
+      <p><strong>Tanggal Pendaftaran:</strong> {{ \Carbon\Carbon::parse($pelatihan->tanggal_pendaftaran)->isoFormat('D MMMM Y') }}</p>
+      <p><strong>Tanggal Pelatihan:</strong> {{ \Carbon\Carbon::parse($pelatihan->tanggal_pelatihan)->isoFormat('D MMMM Y') }}</p>
+      <p><strong>Waktu Mulai:</strong> {{ \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i') }}</p>
+      <p><strong>Waktu Akhir:</strong> {{ \Carbon\Carbon::parse($pelatihan->waktu_akhir)->format('H:i') }}</p>
       <p><strong>Alamat:</strong> {{ $pelatihan->alamat }}</p>
       <p><strong>Deskripsi:</strong> {{ $pelatihan->deskripsi }}</p>
     </div>
