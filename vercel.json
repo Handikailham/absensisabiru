@@ -23,9 +23,8 @@
     }
   ],
   "public": true,
-  "buildCommand": "composer install && php artisan optimize:clear && npm install && npm run build",
-  "installCommand": "composer install",
-  "outputDirectory": "public",
+    "buildCommand": "vite build",
+    "outputDirectory": "public",
   "env": {
     "APP_ENV": "production",
     "APP_TIMEZONE": "Asia/Jakarta",
